@@ -1,6 +1,12 @@
 const express = require('express');
+const path = require('path');
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+// Global variables for storing locations in memory. Persistance isn't necessary.
+var blueLoc = 1;
+var orangeLoc = 1;
 
 app.use(express.static('public'));
 
@@ -8,11 +14,11 @@ app.use(express.static('public'));
 app.get('/', (req, res) => res.redirect('/blue'));
 
 app.get('/blue', (req, res) => {
-  res.send('Hello from the blue line.');
+  res.sendFile(path.join(__dirname + '/views/blue.html'));
 });
 
 app.get('/orange', (req, res) => {
-  res.send('Hello from the orange line.');
+  res.sendFile(path.join(__dirname + '/views/orange.html'));
 });
 
 // the endpoint for the client to update it's bus location
@@ -31,6 +37,7 @@ app.get('/api', (req, res) => {
 });
 
 // the endpoint for the bus to post data to.
+// updates the global variables location for each one.
 app.post('/pi', (req, res) => {
   res.send(`this path receives data from the buses.`);
 });
