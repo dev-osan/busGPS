@@ -4,7 +4,7 @@ This is the server application that will be running as the middle person between
 
 There is no data being persisted in a database, the application just stores the most recent location data for each route in memory.
 
-###The api endpoints are as follows:
+### The api endpoints are as follows:
 
 `/api` GET will return the following data:
 ```typescript
