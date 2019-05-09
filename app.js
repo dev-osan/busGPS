@@ -1,60 +1,47 @@
-const express = require('express');
-const path = require('path');
-
-const app = express();
-const port = process.env.PORT || 3000;
-
-// Global variables for storing locations in memory. Persistance isn't necessary.
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = __importDefault(require("express"));
+var path_1 = __importDefault(require("path"));
+var app = express_1.default();
+var port = process.env.PORT || 3000;
 var blueLoc = 1;
 var orangeLoc = 1;
-
-app.use(express.static('public'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-// redirect home to blue line
-app.get('/', (req, res) => res.redirect('/blue'));
-
-app.get('/blue', (req, res) => {
-  res.sendFile(path.join(__dirname + '/views/blue.html'));
+app.use(express_1.default.static('public'));
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: false }));
+app.get('/', function (req, res) { return res.redirect('/blue'); });
+app.get('/blue', function (req, res) {
+    res.sendFile(path_1.default.join(__dirname + '/views/blue.html'));
 });
-
-app.get('/orange', (req, res) => {
-  res.sendFile(path.join(__dirname + '/views/orange.html'));
+app.get('/orange', function (req, res) {
+    res.sendFile(path_1.default.join(__dirname + '/views/orange.html'));
 });
-
-// the endpoint for the client to update it's bus location
-app.get('/api', (req, res) => {
-  const locationData = {
-    1: {
-      loc: blueLoc
-    },
-    2: {
-      loc: orangeLoc
+app.get('/api', function (req, res) {
+    var locationData = {
+        1: {
+            loc: blueLoc
+        },
+        2: {
+            loc: orangeLoc
+        }
+    };
+    res.json(locationData);
+});
+app.get('/routes', function (req, res) {
+    res.json(busStopLocationData);
+});
+app.post('/pi', function (req, res) {
+    switch (parseInt(req.body.line)) {
+        case 1:
+            blueLoc = parseInt(req.body.loc);
+            break;
+        case 2:
+            orangeLoc = parseInt(req.body.loc);
     }
-  };
-  
-  res.json(locationData);
+    res.sendStatus(200);
 });
-
-// the endpoint for the bus to post data to.
-// updates the global variables location for each one.
-/**
- * Example incoming data
- * 
- * {line: 1,loc: 5}
- */
-app.post('/pi', (req, res) => {
-
-  switch (parseInt(req.body.line)) {
-    case 1:
-      blueLoc = parseInt(req.body.loc);
-      break;
-    case 2:
-      orangeLoc = parseInt(req.body.loc);
-  }
-
-  res.sendStatus(200);
-});
-
-app.listen(port, () => console.log(`bus GPS listening on port ${port}!`));
+app.listen(port, function () { return console.log("bus GPS listening on port " + port + "!"); });
+var busStopLocationData = {};
