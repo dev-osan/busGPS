@@ -4,7 +4,8 @@
   "description": "bus GPS api for Osan AB",
   "main": "app.js",
   "scripts": {
-    "start": "tsc && nodemon app.js",
+    "dev": "tsc && nodemon app.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
