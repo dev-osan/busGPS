@@ -2,9 +2,17 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var path_1 = __importDefault(require("path"));
+var busStopLocationData = __importStar(require("./routes"));
 var app = express_1.default();
 var port = process.env.PORT || 3000;
 var blueLoc = 1;
@@ -31,7 +39,7 @@ app.get('/api', function (req, res) {
     res.json(locationData);
 });
 app.get('/routes', function (req, res) {
-    res.json(busStopLocationData);
+    res.json(busStopLocationData.routes);
 });
 app.post('/pi', function (req, res) {
     switch (parseInt(req.body.line)) {
@@ -44,4 +52,3 @@ app.post('/pi', function (req, res) {
     res.sendStatus(200);
 });
 app.listen(port, function () { return console.log("bus GPS listening on port " + port + "!"); });
-var busStopLocationData = {};
