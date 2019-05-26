@@ -19,14 +19,6 @@ app.get('/', (req: any, res: any) => {
   res.sendFile(path.join(__dirname + '/views/index.html'));
 });
 
-// app.get('/blue', (req: any, res: any) => {
-//   res.sendFile(path.join(__dirname + '/views/blue.html'));
-// });
-
-// app.get('/orange', (req: any, res: any) => {
-//   res.sendFile(path.join(__dirname + '/views/orange.html'));
-// });
-
 // the endpoint for the client to update it's bus location
 app.get('/api', (req: any, res: any) => {
   const locationData = {
