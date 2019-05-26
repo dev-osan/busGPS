@@ -9,11 +9,11 @@ There is no data being persisted in a database, the application just stores the 
 `/api` GET will return the following data:
 ```typescript
 {
-  1: {
+  "blue": {
     loc: Number,
     err: String
   },
-  2: {
+  "orange": {
     loc: Number,
     err: String
   }
