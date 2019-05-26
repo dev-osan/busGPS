@@ -20,12 +20,8 @@ var orangeLoc = 1;
 app.use(express_1.default.static('public'));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
-app.get('/', function (req, res) { return res.redirect('/blue'); });
-app.get('/blue', function (req, res) {
-    res.sendFile(path_1.default.join(__dirname + '/views/blue.html'));
-});
-app.get('/orange', function (req, res) {
-    res.sendFile(path_1.default.join(__dirname + '/views/orange.html'));
+app.get('/', function (req, res) {
+    res.sendFile(path_1.default.join(__dirname + '/views/index.html'));
 });
 app.get('/api', function (req, res) {
     var locationData = {

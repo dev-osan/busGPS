@@ -1,0 +1,36 @@
+
+
+* {
+  text-transform: uppercase;
+}
+
+.table-title {
+  background-color: blue;
+  color: white;
+}
+
+.table-header {
+  background-color: yellow;
+}
+
+.table > * > * {
+  border: 1px black solid;
+}
+
+.row:nth-child(2n+3) {
+  background-color: gainsboro;
+}
+
+.blue {
+  color: white;
+  background-color: blue;
+  padding: 5px;
+  border-radius: 25px;
+}
+
+.orange {
+  color: white;
+  background-color: orange;
+  padding: 5px;
+  border-radius: 25px;
+}
