@@ -44,22 +44,29 @@ window.setInterval(() => {
 }, 5000);
 
 function updateBlue(data) {
-  console.log(`Blue line: ${data.loc}`)
+
+  blueLoc = data.loc;
+
   if (data.loc % 2 != 0) {
-    document.getElementById("blue-status").innerText = `The blue bus is at stop #${Math.round(data.loc / 2)}`;
-    document.getElementById(data.loc).innerHTML = ` <i class="fas fa-bus blue"></i>`;
+    document.getElementById("blue-status").innerText = `The blue bus is at stop #${Math.round(blueLoc / 2)}`;
+    document.getElementById(blueLoc).innerHTML = ` <i class="fas fa-bus blue"></i>`;
   } else {
-    document.getElementById("blue-status").innerText = `The blue bus is in transit to #${Math.round(data.loc / 2) + 1}`;
-    document.getElementById(data.loc + 1).innerHTML = ` <i class="fas fa-bus blue blink"></i>`;
+    document.getElementById("blue-status").innerText = `The blue bus is in transit to #${Math.round(blueLoc / 2) + 1}`;
+    document.getElementById(blueLoc + 1).innerHTML = ` <i class="fas fa-bus blue blink"></i>`;
+    document.getElementById(blueLoc - 1).innerHTML = ``;
   }
 }
 
 function updateOrange(data) {
+
+  orangeLoc = data.loc;
+
   if (data.loc % 2 != 0) {
-    document.getElementById("orange-status").innerText = `The orange bus is at stop #${Math.round(data.loc / 2)}`;
-    document.getElementById(data.loc).innerHTML = ` <i class="fas fa-bus orange"></i>`;
+    document.getElementById("orange-status").innerText = `The orange bus is at stop #${Math.round(orangeLoc / 2)}`;
+    document.getElementById(orangeLoc).innerHTML = ` <i class="fas fa-bus orange"></i>`;
   } else {
-    document.getElementById("orange-status").innerText = `The orange bus is in transit to #${Math.round(data.loc / 2)}`;
-    document.getElementById(data.loc - 1).innerHTML = ` <i class="fas fa-bus orange blink"></i>`;
+    document.getElementById("orange-status").innerText = `The orange bus is in transit to #${Math.round(orangeLoc / 2)}`;
+    document.getElementById(orangeLoc - 1).innerHTML = ` <i class="fas fa-bus orange blink"></i>`;
+    document.getElementById(orangeLoc + 1).innerHTML = ``;
   }
 }

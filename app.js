@@ -37,6 +37,8 @@ app.get('/api', function (req, res) {
     res.json(locationData);
 });
 app.get('/routes', function (req, res) {
+    blueLoc += 1;
+    orangeLoc -= 1;
     res.json(busStopLocationData.routes);
 });
 app.post('/pi', function (req, res) {

@@ -41,6 +41,12 @@ app.get('/api', (req: any, res: any) => {
 
 // The endpoint for getting the bus stop gps data.
 app.get('/routes', (req: any, res: any) => {
+
+  
+  blueLoc += 1; //testing only
+  orangeLoc -= 1; //testing only
+
+
   res.json(busStopLocationData.routes);
 });
 
