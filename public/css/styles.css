@@ -25,6 +25,7 @@
   color: white;
   background-color: blue;
   padding: 5px;
+  margin: 2px;
   border-radius: 25px;
 }
 
@@ -32,5 +33,6 @@
   color: white;
   background-color: orange;
   padding: 5px;
+  margin: 2px;
   border-radius: 25px;
 }
