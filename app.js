@@ -16,19 +16,21 @@ var busStopLocationData = __importStar(require("./routes"));
 var app = express_1.default();
 var port = process.env.PORT || 3000;
 var blueLoc = 1;
-var orangeLoc = 1;
+var orangeLoc = 25;
 app.use(express_1.default.static('public'));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.get('/', function (req, res) {
+    blueLoc += 1;
+    orangeLoc -= 1;
     res.sendFile(path_1.default.join(__dirname + '/views/index.html'));
 });
 app.get('/api', function (req, res) {
     var locationData = {
-        1: {
+        "blue": {
             loc: blueLoc
         },
-        2: {
+        "orange": {
             loc: orangeLoc
         }
     };
