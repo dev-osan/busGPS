@@ -9,8 +9,8 @@ const port = process.env.PORT || 3000;
 // Global variables for storing locations in memory. Persistance isn't necessary.
 var blueLoc = 1;
 var orangeLoc = 25;
-var blueErr = '';
-var orangeErr = '';
+var blueErr = 'Not currently running.';
+var orangeErr = 'Not currently running.';
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -58,9 +58,11 @@ app.post('/pi', (req: any, res: any) => {
   switch (parseInt(req.body.line)) {
     case 1:
       blueLoc = parseInt(req.body.loc);
+      blueErr = req.body.err;
       break;
     case 2:
       orangeLoc = parseInt(req.body.loc);
+      orangeErr = req.body.err;
   }
 
   res.sendStatus(200);

@@ -17,8 +17,8 @@ var app = express_1.default();
 var port = process.env.PORT || 3000;
 var blueLoc = 1;
 var orangeLoc = 25;
-var blueErr = '';
-var orangeErr = '';
+var blueErr = 'Not currently running.';
+var orangeErr = 'Not currently running.';
 app.use(express_1.default.static('public'));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
@@ -49,9 +49,11 @@ app.post('/pi', function (req, res) {
     switch (parseInt(req.body.line)) {
         case 1:
             blueLoc = parseInt(req.body.loc);
+            blueErr = req.body.err;
             break;
         case 2:
             orangeLoc = parseInt(req.body.loc);
+            orangeErr = req.body.err;
     }
     res.sendStatus(200);
 });
