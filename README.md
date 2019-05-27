@@ -24,7 +24,8 @@ There is no data being persisted in a database, the application just stores the 
 ```typescript
 {
   line: Number,
-  loc: Number
+  loc: Number,
+  status: String //send empty string if status message
 }
 ```
 ### Keys
