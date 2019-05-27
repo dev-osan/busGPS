@@ -25,17 +25,15 @@ err - A string with an error message. Empty string if none exist.
 
 */
 
-let blueLoc = 1;
-let orangeLoc = 1;
-
 const url = `/api`;
 
 window.setInterval(() => {
   fetch(url).then(function(res) {
     return res.json();
   }).then(function(data) {
-    updateBlue(data.blue);
-    updateOrange(data.orange);
+    deactivateAllBlueIcons();
+    deactivateAllOrangeIcons();
+    updateBusLocations(data);
   }).catch(function() {
     console.log("Unable to reach server.");
     document.getElementById("blue-status").innerText = "Out of service.";
@@ -43,30 +41,43 @@ window.setInterval(() => {
   });
 }, 5000);
 
-function updateBlue(data) {
+function updateBusLocations(data) {
 
-  blueLoc = data.loc;
+  let blueLocation = data.blue.loc;
+  let orangeLocation = data.orange.loc;
 
-  if (data.loc % 2 != 0) {
-    document.getElementById("blue-status").innerText = `The blue bus is at stop #${Math.round(blueLoc / 2)}`;
-    document.getElementById(blueLoc).innerHTML = ` <i class="fas fa-bus blue"></i>`;
+  if (data.blue.err) {
+    document.getElementById("blue-status").innerText = data.blue.err;
+  } else if (blueLocation % 2 != 0) {
+    document.getElementById(`blue-${blueLocation}`).classList.add('active');
+    document.getElementById("blue-status").innerText = `Stopped at #${Math.round(blueLocation / 2)}`;
   } else {
-    document.getElementById("blue-status").innerText = `The blue bus is in transit to #${Math.round(blueLoc / 2) + 1}`;
-    document.getElementById(blueLoc + 1).innerHTML = ` <i class="fas fa-bus blue blink"></i>`;
-    document.getElementById(blueLoc - 1).innerHTML = ``;
+    document.getElementById(`blue-${blueLocation + 1}`).classList.add('active', 'blink');
+    document.getElementById("blue-status").innerText = `In transit to #${Math.round(blueLocation / 2) + 1}`;
+  }
+
+  if (data.orange.err) {
+    document.getElementById("orange-status").innerText = data.orange.err;
+  } else if (orangeLocation % 2 != 0) {
+    document.getElementById(`orange-${orangeLocation}`).classList.add('active');
+    document.getElementById("orange-status").innerText = `Stopped at #${Math.round(orangeLocation / 2)}`;
+  } else {
+    document.getElementById(`orange-${orangeLocation - 1}`).classList.add('active', 'blink');
+    document.getElementById("orange-status").innerText = `In transit to #${Math.round(orangeLocation / 2)}`;
+  }
+  
+}
+
+function deactivateAllBlueIcons() {
+  for (let i = 1; i <= 25; i += 2) {
+    document.getElementById(`blue-${i}`).classList.remove('active');
+    document.getElementById(`blue-${i}`).classList.remove('blink');
   }
 }
 
-function updateOrange(data) {
-
-  orangeLoc = data.loc;
-
-  if (data.loc % 2 != 0) {
-    document.getElementById("orange-status").innerText = `The orange bus is at stop #${Math.round(orangeLoc / 2)}`;
-    document.getElementById(orangeLoc).innerHTML = ` <i class="fas fa-bus orange"></i>`;
-  } else {
-    document.getElementById("orange-status").innerText = `The orange bus is in transit to #${Math.round(orangeLoc / 2)}`;
-    document.getElementById(orangeLoc - 1).innerHTML = ` <i class="fas fa-bus orange blink"></i>`;
-    document.getElementById(orangeLoc + 1).innerHTML = ``;
+function deactivateAllOrangeIcons() {
+  for (let i = 1; i <= 25; i += 2) {
+    document.getElementById(`orange-${i}`).classList.remove('active');
+    document.getElementById(`orange-${i}`).classList.remove('blink');
   }
 }

@@ -17,12 +17,12 @@ var app = express_1.default();
 var port = process.env.PORT || 3000;
 var blueLoc = 1;
 var orangeLoc = 25;
+var blueErr = '';
+var orangeErr = '';
 app.use(express_1.default.static('public'));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.get('/', function (req, res) {
-    blueLoc += 1;
-    orangeLoc -= 1;
     res.sendFile(path_1.default.join(__dirname + '/views/index.html'));
 });
 app.get('/api', function (req, res) {
@@ -34,11 +34,15 @@ app.get('/api', function (req, res) {
             loc: orangeLoc
         }
     };
+    if (blueErr != '') {
+        locationData.blue.err = blueErr;
+    }
+    if (orangeErr != '') {
+        locationData.orange.err = orangeErr;
+    }
     res.json(locationData);
 });
 app.get('/routes', function (req, res) {
-    blueLoc += 1;
-    orangeLoc -= 1;
     res.json(busStopLocationData.routes);
 });
 app.post('/pi', function (req, res) {

@@ -9,6 +9,8 @@ const port = process.env.PORT || 3000;
 // Global variables for storing locations in memory. Persistance isn't necessary.
 var blueLoc = 1;
 var orangeLoc = 25;
+var blueErr = '';
+var orangeErr = '';
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -16,18 +18,12 @@ app.use(express.urlencoded({ extended: false }));
 
 // redirect home to blue line
 app.get('/', (req: any, res: any) => {
-
-  // For testing only
-  blueLoc += 1;
-  orangeLoc -= 1;
-  // End testing only
-
   res.sendFile(path.join(__dirname + '/views/index.html'));
 });
 
 // the endpoint for the client to update it's bus location
 app.get('/api', (req: any, res: any) => {
-  const locationData = {
+  let locationData: {[k: string]: any} = {
     "blue": {
       loc: blueLoc
     },
@@ -35,18 +31,19 @@ app.get('/api', (req: any, res: any) => {
       loc: orangeLoc
     }
   };
+
+  if (blueErr != '') {
+    locationData.blue.err = blueErr;
+  }
+  if (orangeErr != '') {
+    locationData.orange.err = orangeErr;
+  }
   
   res.json(locationData);
 });
 
 // The endpoint for getting the bus stop gps data.
 app.get('/routes', (req: any, res: any) => {
-
-  
-  blueLoc += 1; //testing only
-  orangeLoc -= 1; //testing only
-
-
   res.json(busStopLocationData.routes);
 });
 
