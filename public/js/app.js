@@ -36,8 +36,8 @@ window.setInterval(() => {
     updateBusLocations(data);
   }).catch(function() {
     console.log("Unable to reach server.");
-    document.getElementById("blue-status").innerText = "Out of service.";
-    document.getElementById("orange-status").innerText = "Out of service.";
+    document.getElementById("blue-status").innerText = "Unable to reach server...";
+    document.getElementById("orange-status").innerText = "Unable to reach server...";
   });
 }, 5000);
 
@@ -65,7 +65,7 @@ function updateBusLocations(data) {
     document.getElementById(`orange-${orangeLocation - 1}`).classList.add('active', 'blink');
     document.getElementById("orange-status").innerText = `In transit to #${Math.round(orangeLocation / 2)}`;
   }
-  
+
 }
 
 function deactivateAllBlueIcons() {
