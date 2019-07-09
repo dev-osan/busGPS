@@ -2,6 +2,8 @@
 
 // The fetch function should automatically update every 10 seconds.
 
+// TODO: make a request for the current routes and build the page based on the route that is returned.
+
 
 
 /*
