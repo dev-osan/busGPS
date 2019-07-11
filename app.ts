@@ -27,12 +27,12 @@ app.get('/', (req: any, res: any) => {
 app.get('/api', (req: any, res: any) => {
   let locationData: {[k: string]: any} = {
     "blue": {
-      loc: blueLoc,
-      intransit: blueInTransit
+      "loc": blueLoc,
+      "intransit": blueInTransit
     },
     "orange": {
-      loc: orangeLoc,
-      intransit: orangeInTransit
+      "loc": orangeLoc,
+      "intransit": orangeInTransit
     }
   };
 
@@ -63,12 +63,12 @@ app.post('/pi', (req: any, res: any) => {
     case "blue":
       blueLoc = parseInt(req.body.stop);
       blueStatus = req.body.status;
-      blueInTransit = req.body.intransit
+      blueInTransit = JSON.parse(req.body.intransit)
       break;
     case "orange":
       orangeLoc = parseInt(req.body.stop);
       orangeStatus = req.body.status;
-      orangeInTransit = req.body.intransit
+      orangeInTransit = JSON.parse(req.body.intransit)
   }
 
   res.sendStatus(200);

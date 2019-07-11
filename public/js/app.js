@@ -67,7 +67,7 @@ function updateBusLocations(data) {
   } else if (!orangeInTransit) {
     document.getElementById(`orange-${orangeLocation}`).classList.add('active');
     document.getElementById("orange-status").innerText = `Stopped at #${orangeLocation}`;
-  } else {
+  } else if (orangeInTransit) {
     document.getElementById(`orange-${orangeLocation - 1}`).classList.add('active', 'blink');
     document.getElementById("orange-status").innerText = `In transit to #${orangeLocation - 1}`;
   }
