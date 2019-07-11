@@ -59,6 +59,9 @@ app.post('/pi', function (req, res) {
             break;
         case "orange":
             console.log("Updating orange route");
+            console.log("stop: " + req.body.stop);
+            console.log("status: " + req.body.status);
+            console.log("inTransit: " + req.body.intransit);
             orangeLoc = parseInt(req.body.stop);
             orangeStatus = req.body.status;
             orangeInTransit = req.body.intransit;
