@@ -51,18 +51,17 @@ app.get('/routes', function (req, res) {
     res.json(busStopLocationData.routes);
 });
 app.post('/pi', function (req, res) {
-    console.log("Recieved update!!!! : " + req.body);
     switch (String(req.body.route)) {
         case "blue":
-            console.log("Recieved update!!!! : " + JSON.stringify(req.body));
             blueLoc = parseInt(req.body.stop);
             blueStatus = JSON.parse(req.body.status);
             blueInTransit = JSON.parse(req.body.intransit);
             break;
         case "orange":
+            console.log("Updating orange route");
             orangeLoc = parseInt(req.body.stop);
-            orangeStatus = JSON.parse(req.body.status);
-            orangeInTransit = JSON.parse(req.body.intransit);
+            orangeStatus = req.body.status;
+            orangeInTransit = req.body.intransit;
     }
     res.sendStatus(200);
 });
