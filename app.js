@@ -51,6 +51,7 @@ app.get('/routes', function (req, res) {
     res.json(busStopLocationData.routes);
 });
 app.post('/pi', function (req, res) {
+    console.log("Recieved update!!!! : " + JSON.stringify(req.body));
     switch (String(req.body.route)) {
         case "blue":
             console.log("Recieved update!!!! : " + JSON.stringify(req.body));

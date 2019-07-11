@@ -61,6 +61,9 @@ app.get('/routes', (req: any, res: any) => {
  * {stop: 1, route: "blue", intransit: true, status: ''}
  */
 app.post('/pi', (req: any, res: any) => {
+
+  console.log(`Recieved update!!!! : ${JSON.stringify(req.body)}`)
+
   switch (String(req.body.route)) {
     case "blue":
       console.log(`Recieved update!!!! : ${JSON.stringify(req.body)}`)
