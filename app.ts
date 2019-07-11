@@ -62,7 +62,7 @@ app.get('/routes', (req: any, res: any) => {
  */
 app.post('/pi', (req: any, res: any) => {
 
-  console.log(`Recieved update!!!! : ${req.body}`)
+  console.log(`Recieved update!!!! : ${JSON.stringify(req.body)}`)
 
   switch (String(req.body.route)) {
     case "blue":
