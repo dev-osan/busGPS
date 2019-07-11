@@ -53,12 +53,12 @@ app.post('/pi', function (req, res) {
     switch (String(req.body.route)) {
         case "blue":
             blueLoc = parseInt(req.body.stop);
-            blueStatus = req.body.status;
+            blueStatus = JSON.parse(req.body.status);
             blueInTransit = JSON.parse(req.body.intransit);
             break;
         case "orange":
             orangeLoc = parseInt(req.body.stop);
-            orangeStatus = req.body.status;
+            orangeStatus = JSON.parse(req.body.status);
             orangeInTransit = JSON.parse(req.body.intransit);
     }
     res.sendStatus(200);
