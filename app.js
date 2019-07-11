@@ -19,6 +19,8 @@ var blueLoc = 1;
 var orangeLoc = 25;
 var blueStatus = 'Not currently running.';
 var orangeStatus = 'Not currently running.';
+var blueInTransit = false;
+var orangeInTransit = false;
 app.use(express_1.default.static('public'));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
@@ -28,10 +30,12 @@ app.get('/', function (req, res) {
 app.get('/api', function (req, res) {
     var locationData = {
         "blue": {
-            loc: blueLoc
+            loc: blueLoc,
+            intransit: blueInTransit
         },
         "orange": {
-            loc: orangeLoc
+            loc: orangeLoc,
+            intransit: orangeInTransit
         }
     };
     if (blueStatus != '') {
@@ -46,14 +50,16 @@ app.get('/routes', function (req, res) {
     res.json(busStopLocationData.routes);
 });
 app.post('/pi', function (req, res) {
-    switch (parseInt(req.body.line)) {
-        case 1:
-            blueLoc = parseInt(req.body.loc);
+    switch (String(req.body.route)) {
+        case "blue":
+            blueLoc = parseInt(req.body.stop);
             blueStatus = req.body.status;
+            blueInTransit = req.body.intransit;
             break;
-        case 2:
-            orangeLoc = parseInt(req.body.loc);
+        case "orange":
+            orangeLoc = parseInt(req.body.stop);
             orangeStatus = req.body.status;
+            orangeInTransit = req.body.intransit;
     }
     res.sendStatus(200);
 });

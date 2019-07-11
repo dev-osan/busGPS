@@ -4,7 +4,7 @@
 
 // TODO: make a request for the current routes and build the page based on the route that is returned.
 
-
+// TODO: Add an arrow to the icon to indicate which direction the bus is traveling. It's not obvious.
 
 /*
 
