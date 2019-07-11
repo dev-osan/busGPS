@@ -42,6 +42,8 @@ app.get('/api', (req: any, res: any) => {
   if (orangeStatus != '') {
     locationData.orange.err = orangeStatus;
   }
+
+  console.log(`Sending update info: ${locationData}`);
   
   res.json(locationData);
 });
@@ -61,6 +63,7 @@ app.get('/routes', (req: any, res: any) => {
 app.post('/pi', (req: any, res: any) => {
   switch (String(req.body.route)) {
     case "blue":
+      console.log(`Recieved update!!!! : ${req.body}`)
       blueLoc = parseInt(req.body.stop);
       blueStatus = JSON.parse(req.body.status);
       blueInTransit = JSON.parse(req.body.intransit)
