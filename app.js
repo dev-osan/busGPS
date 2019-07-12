@@ -44,7 +44,6 @@ app.get('/api', function (req, res) {
     if (orangeStatus != '') {
         locationData.orange.err = orangeStatus;
     }
-    console.log("Sending update info: " + JSON.stringify(locationData));
     res.json(locationData);
 });
 app.get('/routes', function (req, res) {
@@ -64,4 +63,4 @@ app.post('/pi', function (req, res) {
     }
     res.sendStatus(200);
 });
-app.listen(port, function () { return console.log("bus GPS listening on port " + port + "!"); });
+app.listen(port, function () { return console.log("bus GPS server listening on port " + port + "!"); });

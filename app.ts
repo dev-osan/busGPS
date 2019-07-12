@@ -18,7 +18,6 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// redirect home to blue line
 app.get('/', (req: any, res: any) => {
   res.sendFile(path.join(__dirname + '/views/index.html'));
 });
@@ -42,8 +41,6 @@ app.get('/api', (req: any, res: any) => {
   if (orangeStatus != '') {
     locationData.orange.err = orangeStatus;
   }
-
-  console.log(`Sending update info: ${JSON.stringify(locationData)}`);
   
   res.json(locationData);
 });
@@ -77,4 +74,4 @@ app.post('/pi', (req: any, res: any) => {
   res.sendStatus(200);
 });
 
-app.listen(port, () => console.log(`bus GPS listening on port ${port}!`));
+app.listen(port, () => console.log(`bus GPS server listening on port ${port}!`));
