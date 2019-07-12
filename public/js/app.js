@@ -126,23 +126,23 @@ function updateBusLocations(data) {
     document.getElementById("orange-status").innerText = data.orange.err;
   } else if (!orangeInTransit) {
     document.getElementById(`orange-${orangeLocation}`).classList.add('active');
-    document.getElementById("orange-status").innerText = `Stopped at #${orangeLocation}: ${stops[orangeLocation].name}`;
+    document.getElementById("orange-status").innerText = `Stopped at #${orangeLocation - 1}: ${stops[orangeLocation -1].name}`;
   } else if (orangeInTransit) {
     document.getElementById(`orange-${orangeLocation - 1}`).classList.add('active', 'blink');
-    document.getElementById("orange-status").innerText = `In transit to #${orangeLocation - 1}: ${stops[orangeLocation - 1].name}`;
+    document.getElementById("orange-status").innerText = `In transit to #${orangeLocation - 2}: ${stops[orangeLocation - 2].name}`;
   }
 
 }
 
 function deactivateAllBlueIcons() {
-  for (let i = 1; i <= 13; i++) {
+  for (let i = 1; i <= stops.length; i++) {
     document.getElementById(`blue-${i}`).classList.remove('active');
     document.getElementById(`blue-${i}`).classList.remove('blink');
   }
 }
 
 function deactivateAllOrangeIcons() {
-  for (let i = 1; i <= 13; i++) {
+  for (let i = 1; i <= stops.length; i++) {
     document.getElementById(`orange-${i}`).classList.remove('active');
     document.getElementById(`orange-${i}`).classList.remove('blink');
   }
