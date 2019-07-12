@@ -35,12 +35,10 @@ There is no data being persisted in a database, the application just stores the 
 `/routes` GET will return a list of all stops on the bus route in order.
 ```typescript
 {
-  "stops": {
-    [
-      name: String,
-      lat: Number,
-      lon: Number
-    ]
-  }
+  "stops": [
+    name: String,
+    lat: Number,
+    lon: Number
+  ]
 }
 ```
