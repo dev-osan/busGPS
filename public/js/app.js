@@ -96,8 +96,9 @@ window.setInterval(() => {
     deactivateAllBlueIcons();
     deactivateAllOrangeIcons();
     updateBusLocations(data);
-  }).catch(function() {
+  }).catch(function(err) {
     console.log("Unable to reach server.");
+    console.error(err)
     document.getElementById("blue-status").innerText = "Unable to reach server...";
     document.getElementById("orange-status").innerText = "Unable to reach server...";
   });
