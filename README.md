@@ -38,7 +38,9 @@ There is no data being persisted in a database, the application just stores the 
   "stops": [
     name: String,
     lat: Number,
-    lon: Number
+    lon: Number,
+    blue_time: Number,
+    orange_time: Number
   ]
 }
 ```
