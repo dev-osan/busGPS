@@ -126,10 +126,10 @@ function updateBusLocations(data) {
     document.getElementById("orange-status").innerText = data.orange.err;
   } else if (!orangeInTransit) {
     document.getElementById(`orange-${orangeLocation}`).classList.add('active');
-    document.getElementById("orange-status").innerText = `Stopped at #${orangeLocation - 1}: ${stops[orangeLocation -1].name}`;
+    document.getElementById("orange-status").innerText = `Stopped at #${orangeLocation}: ${stops[orangeLocation -1].name}`;
   } else if (orangeInTransit) {
     document.getElementById(`orange-${orangeLocation - 1}`).classList.add('active', 'blink');
-    document.getElementById("orange-status").innerText = `In transit to #${orangeLocation - 2}: ${stops[orangeLocation - 2].name}`;
+    document.getElementById("orange-status").innerText = `In transit to #${orangeLocation - 1}: ${stops[orangeLocation - 2].name}`;
   }
 
 }
