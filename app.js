@@ -60,6 +60,10 @@ app.post('/pi', function (req, res) {
             orangeLoc = parseInt(req.body.stop);
             orangeStatus = req.body.status;
             orangeInTransit = JSON.parse(req.body.intransit);
+            break;
+        default:
+            blueStatus = req.body.status;
+            orangeStatus = req.body.status;
     }
     console.log("------ ------ ------");
     console.log("Route: " + String(req.body.route));
