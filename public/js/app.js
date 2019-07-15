@@ -70,7 +70,7 @@ function buildBusRouteTable(stops) {
 JSON data structure
 loc - A number that represents the location of the Bus.
 intransit - A boolean describing if the bus is in transit FROM the location.
-err - A string with an error message. Empty string if none exist.
+err - A string with an error message. Empty string or no value if none exist.
 
 {
   "blue": {
@@ -111,6 +111,12 @@ function updateBusLocations(data) {
 
   let blueInTransit = data.blue.intransit;
   let orangeInTransit = data.orange.intransit;
+
+  if (blueLocation < 1 || blueLocation > stops.length) {
+    return console.error(`Recieved ${blueLocation} as the Blue Line location.`);
+  } else if (orangeLocation < 1 || orangeLocation > stops.length) {
+    return console.error(`Recieved ${orangeLocation} as the Orange Line location.`);
+  }
 
   if (data.blue.err) {
     document.getElementById("blue-status").innerText = data.blue.err;
