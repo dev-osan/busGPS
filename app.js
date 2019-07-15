@@ -62,13 +62,10 @@ app.post('/pi', function (req, res) {
             orangeInTransit = JSON.parse(req.body.intransit);
     }
     console.log("------ ------ ------");
-    console.log("Blue Location: " + blueLoc);
-    console.log("Blue In Transit: " + blueInTransit);
-    console.log("Blue Status: " + blueStatus);
-    console.log("Orange Location: " + orangeLoc);
-    console.log("Orange In Transit: " + orangeInTransit);
-    console.log("Orange Status: " + orangeStatus);
-    console.log("------ ------ ------");
+    console.log("Route: " + String(req.body.route));
+    console.log("Location: " + parseInt(req.body.stop));
+    console.log("In Transit: " + JSON.parse(req.body.intransit));
+    console.log("Status: " + req.body.status);
     res.sendStatus(200);
 });
 app.listen(port, function () { return console.log("bus GPS server listening on port " + port + "!"); });
