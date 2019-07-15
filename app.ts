@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 
 // Global variables for storing locations in memory. Persistance isn't necessary.
 var blueLoc = 1;
-var orangeLoc = 25;
+var orangeLoc = 1;
 var blueStatus = 'Not currently running.';
 var orangeStatus = 'Not currently running.';
 var blueInTransit = false
