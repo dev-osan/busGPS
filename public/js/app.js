@@ -2,7 +2,7 @@
 
 // The fetch function should automatically update every 5 seconds.
 
-// TODO: Add an arrow to the icon to indicate which direction the bus is traveling. It's not obvious.
+// TODO: review the display logic for the blue line, the status message is showing the wrong information for some reason... it may be because I didn't refresh the page after I made the changes.
 
 var stops;
 
