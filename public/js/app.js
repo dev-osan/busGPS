@@ -95,7 +95,6 @@ window.setInterval(() => {
   }).then(function(data) {
     deactivateAllBlueIcons();
     deactivateAllOrangeIcons();
-    updateBusLocations(data);
     updateBlueBusLocation(data);
     updateOrangeBusLocation(data);
   }).catch(function(err) {
