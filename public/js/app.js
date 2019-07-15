@@ -96,6 +96,8 @@ window.setInterval(() => {
     deactivateAllBlueIcons();
     deactivateAllOrangeIcons();
     updateBusLocations(data);
+    updateBlueBusLocation(data);
+    updateOrangeBusLocation(data);
   }).catch(function(err) {
     console.log("Unable to reach server.");
     console.error(err)
@@ -104,18 +106,14 @@ window.setInterval(() => {
   });
 }, 5000);
 
-function updateBusLocations(data) {
+function updateBlueBusLocation(data) {
 
   let blueLocation = data.blue.loc;
-  let orangeLocation = data.orange.loc;
 
   let blueInTransit = data.blue.intransit;
-  let orangeInTransit = data.orange.intransit;
 
   if (blueLocation < 1 || blueLocation > stops.length) {
     return console.error(`Recieved ${blueLocation} as the Blue Line location.`);
-  } else if (orangeLocation < 1 || orangeLocation > stops.length) {
-    return console.error(`Recieved ${orangeLocation} as the Orange Line location.`);
   }
 
   if (data.blue.err) {
@@ -129,6 +127,17 @@ function updateBusLocations(data) {
     }
     document.getElementById(`blue-${blueLocation + 1}`).classList.add('active', 'blink');
     document.getElementById("blue-status").innerText = `In transit to #${blueLocation + 1}: ${stops[blueLocation + 1].name}`;
+  }
+}
+
+function updateOrangeBusLocation(data) {
+
+  let orangeLocation = data.orange.loc;
+
+  let orangeInTransit = data.orange.intransit;
+
+  if (orangeLocation < 1 || orangeLocation > stops.length) {
+    return console.error(`Recieved ${orangeLocation} as the Orange Line location.`);
   }
 
   if (data.orange.err) {
