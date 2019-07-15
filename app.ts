@@ -71,6 +71,17 @@ app.post('/pi', (req: any, res: any) => {
       orangeInTransit = JSON.parse(req.body.intransit);
   }
 
+  console.log(`------ ------ ------`);
+  console.log(`Blue Location: ${blueLoc}`);
+  console.log(`Blue In Transit: ${blueInTransit}`);
+  console.log(`Blue Status: ${blueStatus}`);
+
+  console.log(`Orange Location: ${orangeLoc}`);
+  console.log(`Orange In Transit: ${orangeInTransit}`);
+  console.log(`Orange Status: ${orangeStatus}`);  
+  console.log(`------ ------ ------`);
+  
+
   res.sendStatus(200);
 });
 
