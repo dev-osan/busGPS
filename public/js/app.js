@@ -122,7 +122,7 @@ function updateBusLocations(data) {
     document.getElementById("blue-status").innerText = data.blue.err;
   } else if (!blueInTransit) {
     document.getElementById(`blue-${blueLocation}`).classList.add('active');
-    document.getElementById("blue-status").innerText = `Stopped at #${blueLocation}: ${stops[blueLocation].name}`;
+    document.getElementById("blue-status").innerText = `Stopped at #${blueLocation}: ${stops[blueLocation - 1].name}`;
   } else if (blueInTransit) {
     if (blueLocation == stops.length) {
       return console.error(`The blue route is recieving a transit signal from ${stops.length} to ${stops.length + 1}, change to orange line.`);
@@ -135,7 +135,7 @@ function updateBusLocations(data) {
     document.getElementById("orange-status").innerText = data.orange.err;
   } else if (!orangeInTransit) {
     document.getElementById(`orange-${orangeLocation}`).classList.add('active');
-    document.getElementById("orange-status").innerText = `Stopped at #${orangeLocation}: ${stops[orangeLocation -1].name}`;
+    document.getElementById("orange-status").innerText = `Stopped at #${orangeLocation}: ${stops[orangeLocation - 1].name}`;
   } else if (orangeInTransit) {
     if (orangeLocation == 1) {
       return console.error("The orange route is recieving a transit signal from 1 to 0, change to blue line.");
