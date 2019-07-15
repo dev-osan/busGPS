@@ -125,7 +125,7 @@ function updateBlueBusLocation(data) {
       return console.error(`The blue route is recieving a transit signal from ${stops.length} to ${stops.length + 1}, change to orange line.`);
     }
     document.getElementById(`blue-${blueLocation + 1}`).classList.add('active', 'blink');
-    document.getElementById("blue-status").innerText = `In transit to #${blueLocation}: ${stops[blueLocation + 1].name}`;
+    document.getElementById("blue-status").innerText = `In transit to #${blueLocation + 1}: ${stops[blueLocation].name}`;
   }
 }
 
