@@ -1,7 +1,3 @@
-# TODO: turn around logic still needs some testing.
-# Turned around in the middle of the route and it stays on the same route.
-# The ends of the route - the route changes as soon as it arrives at the stop.
-
 from geopy.distance import geodesic
 import gps
 import json
@@ -11,7 +7,7 @@ import time
 session = gps.gps("127.0.0.1", "2947") 
 session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 
-UPDATE_FREQ_SECONDS = 1
+UPDATE_FREQ_SECONDS = 0.25
 NUMBER_OF_DATA_POINTS_PER_GPS_READ = 5
 GEOFENCE_RADIUS_METERS = 50
 
@@ -41,7 +37,9 @@ def setLatLon():
     lat_accumulator = []
     lon_accumulator = []
     i = 1
+    print("Getting data"),
     while i <= NUMBER_OF_DATA_POINTS_PER_GPS_READ:
+        print("."),
         raw_data = session.next()
         if raw_data['class'] == 'TPV':
             if hasattr(raw_data, 'lat') and hasattr(raw_data,'lon'):
@@ -60,6 +58,8 @@ def setLatLon():
     for point in lon_accumulator:
         sum += point
     lon = sum / NUMBER_OF_DATA_POINTS_PER_GPS_READ
+
+    print("I am at: " + str(lat) + ", " + str(lon))
 
 
 
@@ -222,5 +222,5 @@ def main():
 
 
 
-
+print("Starting busGPS program.")
 main()
