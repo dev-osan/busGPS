@@ -7,7 +7,6 @@ import time
 session = gps.gps("127.0.0.1", "2947") 
 session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 
-UPDATE_FREQ_SECONDS = 0.25
 NUMBER_OF_DATA_POINTS_PER_GPS_READ = 5
 GEOFENCE_RADIUS_METERS = 50
 
@@ -203,7 +202,6 @@ def sendBusLocation():
 def main():
     while True:
         try:
-            time.sleep(UPDATE_FREQ_SECONDS)
             setLatLon()
             setCurrentStop()
             setCurrentRoute()
