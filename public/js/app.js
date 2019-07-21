@@ -88,6 +88,7 @@ err - A string with an error message. Empty string or no value if none exist.
 */
 
 const url = `/api`;
+const UPDATE_INTERVAL_MILLISECONDS = 2000;
 
 window.setInterval(() => {
   fetch(url).then(function(res) {
@@ -103,7 +104,7 @@ window.setInterval(() => {
     document.getElementById("blue-status").innerText = "Unable to reach server...";
     document.getElementById("orange-status").innerText = "Unable to reach server...";
   });
-}, 5000);
+}, UPDATE_INTERVAL_MILLISECONDS);
 
 function updateBlueBusLocation(data) {
 
