@@ -107,7 +107,7 @@ def setCurrentRoute():
         else:
             currentRoute = "orange"
         return
-
+    
     # Make a case utilizing the previous and next stop flags
     if previousStop == None or nextStop == None:
         return
@@ -115,7 +115,7 @@ def setCurrentRoute():
     currentRoute = "blue" if previousStop < nextStop else "orange"
     
     # Handles the ends of the routes. The bus changes it's route after both busses arrive at the last stop. Pull down the position of the other bus to find out where it's at.
-    # If I'm at the end of my route, hold my current route until the other bus arrives at the end of it's route then change routes. Consider what happens when the other bus recognizes and changes route before the other because they're using the same logic...
+    # If I'm at the end of my route, hold my current route until the other bus arrives at the end of it's route then change routes.
     if currentStop == 1 or currentStop == len(stops):
         busLocations = requests.get(LOCATION_OF_BUSSES)
         busLocations = busLocations.json()
@@ -125,9 +125,9 @@ def setCurrentRoute():
             currentRoute = "orange"
         elif currentRoute == "orange" and blueLocation == len(stops):
             currentRoute = "blue"
-
+        return
     
-    
+    # Old end of route handler. Is supposed to change routes after leaving the last route.
     # if currentRoute == "blue" and currentStop == len(stops) and inTransit == True:
     #     currentRoute = "orange"
     #     return
