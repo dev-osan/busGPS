@@ -11,6 +11,7 @@ session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 
 NUMBER_OF_DATA_POINTS_PER_GPS_READ = 3
 GEOFENCE_RADIUS_METERS = 50
+ALLOWABLE_NUMBER_OF_DROPPED_PACKETS = 15 # If this many packets are dropped in a row, reboot.
 
 # important urls
 LOC_URL = "https://busgps.herokuapp.com/pi"
@@ -31,7 +32,7 @@ inTransit = None
 lat = None
 lon = None
 
-
+lostConnectionCounter = 0
 
 
 def setLatLon():
@@ -193,8 +194,17 @@ def sendBusLocation():
         if status != "":
             print("Status: " + status)
 
-        requests.post(LOC_URL, json={"route": currentRoute, "stop": currentStop, "intransit": inTransit, "status": status})
+        res = requests.post(LOC_URL, json={"route": currentRoute, "stop": currentStop, "intransit": inTransit, "status": status})
+        
+        global lostConnectionCounter
+        if not res:
+            lostConnectionCounter += 1
+            if lostConnectionCounter == ALLOWABLE_NUMBER_OF_DROPPED_PACKETS:
+                # reboot pi
+                os.system("sudo reboot")
+            return
 
+        lostConnectionCounter = 0
 
     if lat == None or lon == None:
         send("Waiting for GPS signal... standby")
