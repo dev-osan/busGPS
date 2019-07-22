@@ -1,3 +1,5 @@
+# TODO: implement catching wifi connectivity outage and reboot pi. Use a counter or something so it doesn't reboot after only one lost packet.
+
 from geopy.distance import geodesic
 import gps
 import json
@@ -7,12 +9,13 @@ import time
 session = gps.gps("127.0.0.1", "2947") 
 session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 
-NUMBER_OF_DATA_POINTS_PER_GPS_READ = 5
+NUMBER_OF_DATA_POINTS_PER_GPS_READ = 3
 GEOFENCE_RADIUS_METERS = 50
 
 # important urls
 LOC_URL = "https://busgps.herokuapp.com/pi"
 ROUTE_URL = "https://busgps.herokuapp.com/routes"
+LOCATION_OF_BUSSES = "https://busgps.herokuapp.com/api"
 
 # get routes
 routes = requests.get(ROUTE_URL)
@@ -104,20 +107,33 @@ def setCurrentRoute():
         else:
             currentRoute = "orange"
         return
-    
-    # Handles the ends of the routes. The bus changes it's route after leaving the the turn-around stop.
-    if currentRoute == "blue" and currentStop == len(stops) and inTransit == True:
-        currentRoute = "orange"
-        return
-    elif currentRoute == "orange" and currentStop == 1 and inTransit == True:
-        currentRoute = "blue"
-        return
-    
+
     # Make a case utilizing the previous and next stop flags
     if previousStop == None or nextStop == None:
         return
     
     currentRoute = "blue" if previousStop < nextStop else "orange"
+    
+    # Handles the ends of the routes. The bus changes it's route after both busses arrive at the last stop. Pull down the position of the other bus to find out where it's at.
+    # If I'm at the end of my route, hold my current route until the other bus arrives at the end of it's route then change routes. Consider what happens when the other bus recognizes and changes route before the other because they're using the same logic...
+    if currentStop == 1 or currentStop == len(stops):
+        busLocations = requests.get(LOCATION_OF_BUSSES)
+        busLocations = busLocations.json()
+        blueLocation = busLocations["blue"]["loc"]
+        orangeLocation = busLocations["orange"]["loc"]
+        if currentRoute == "blue" and orangeLocation == 1:
+            currentRoute = "orange"
+        elif currentRoute == "orange" and blueLocation == len(stops):
+            currentRoute = "blue"
+
+    
+    
+    # if currentRoute == "blue" and currentStop == len(stops) and inTransit == True:
+    #     currentRoute = "orange"
+    #     return
+    # elif currentRoute == "orange" and currentStop == 1 and inTransit == True:
+    #     currentRoute = "blue"
+    #     return
 
 
 
