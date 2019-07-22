@@ -54,15 +54,15 @@
 }
 
  /* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) {
+@media (max-width: 768px) {
   * {
     font-size: 0.85em;
   }
 }
 
- /* Medium devices (tablets, 768px and up) */
+ /* Medium devices (tablets, 768px and up)
 @media (min-width: 768px) {
   * {
     font-size: 1em;
   }
-}
+} */
