@@ -200,8 +200,7 @@ def sendBusLocation():
         if not res:
             lostConnectionCounter += 1
             if lostConnectionCounter == ALLOWABLE_NUMBER_OF_DROPPED_PACKETS:
-                # reboot pi
-                os.system("sudo reboot")
+                os.system("sudo reboot") # Reboot pi
             return
 
         lostConnectionCounter = 0
@@ -230,9 +229,9 @@ def main():
         try:
             setLatLon()
             setCurrentStop()
-            setCurrentRoute()
             setInTransit()
             sendBusLocation()
+            setCurrentRoute()
 
 
         except KeyError:
