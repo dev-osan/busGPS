@@ -10,7 +10,7 @@ session = gps.gps("127.0.0.1", "2947")
 session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 
 NUMBER_OF_DATA_POINTS_PER_GPS_READ = 3
-GEOFENCE_RADIUS_METERS = 50
+GEOFENCE_RADIUS_METERS = 40
 ALLOWABLE_NUMBER_OF_DROPPED_PACKETS = 15 # If this many packets are dropped in a row, reboot.
 
 # important urls
@@ -195,15 +195,7 @@ def sendBusLocation():
             print("Status: " + status)
 
         res = requests.post(LOC_URL, json={"route": currentRoute, "stop": currentStop, "intransit": inTransit, "status": status})
-        
-        global lostConnectionCounter
-        if not res:
-            lostConnectionCounter += 1
-            if lostConnectionCounter == ALLOWABLE_NUMBER_OF_DROPPED_PACKETS:
-                os.system("sudo reboot") # Reboot pi
-            return
-
-        lostConnectionCounter = 0
+        testConnection(res)
 
     if lat == None or lon == None:
         send("Waiting for GPS signal... standby")
@@ -220,6 +212,21 @@ def sendBusLocation():
     print("\tIn Transit: " + str(inTransit)),
     print("\tPrevious Stop: " + str(previousStop)),
     print("\tNext Stop: " + str(nextStop))
+
+
+
+
+
+def testConnection(res):
+    global lostConnectionCounter
+    if not res:
+        lostConnectionCounter += 1
+        if lostConnectionCounter == ALLOWABLE_NUMBER_OF_DROPPED_PACKETS:
+            os.system("sudo reboot") # Reboot pi
+        return
+
+    lostConnectionCounter = 0
+
 
 
 
