@@ -1,5 +1,3 @@
-# TODO: implement catching wifi connectivity outage and reboot pi. Use a counter or something so it doesn't reboot after only one lost packet.
-
 from geopy.distance import geodesic
 import gps
 import json
