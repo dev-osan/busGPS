@@ -187,7 +187,7 @@ def setPreviousAndNextStops():
 
 
 
-
+statusUpdateCounter = 0
 def sendBusLocation():
 
     def send(status = ""):
@@ -201,8 +201,12 @@ def sendBusLocation():
         send("Waiting for GPS signal... standby")
         return
     
+    global statusUpdateCounter # Updates this status only once so that it doesn't interfere with the other route.
     if currentStop == None or currentRoute == None:
+        if statusUpdateCounter >= 1:
+            return
         send("Orienting bus to route... standby")
+        statusUpdateCounter += 1
         return
     
     send()
