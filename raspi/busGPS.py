@@ -199,7 +199,8 @@ def sendBusLocation():
             print("Status: " + status)
             
         res = requests.post(LOC_URL, json={"route": currentRoute, "stop": currentStop, "intransit": inTransit, "status": status})
-        testConnection(res)
+        if not didGetGoodResponse(res):
+            send(status)
 
     if lat == None or lon == None:
         send("Waiting for GPS signal... standby")
@@ -221,15 +222,16 @@ def sendBusLocation():
 
 
 
-def testConnection(res):
+def didGetGoodResponse(res):
     global lostConnectionCounter
     if not res:
         lostConnectionCounter += 1
         if lostConnectionCounter == ALLOWABLE_NUMBER_OF_DROPPED_PACKETS:
             os.system("sudo reboot") # Reboot pi
-        return
+        return False
 
     lostConnectionCounter = 0
+    return True
 
 
 
