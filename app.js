@@ -12,15 +12,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var path_1 = __importDefault(require("path"));
+var moment = require("moment");
 var busStopLocationData = __importStar(require("./routes"));
 var app = express_1.default();
 var port = process.env.PORT || 3000;
+var TIMEOUT_MS = 10 * 60 * 1000;
 var blueLoc = 1;
 var orangeLoc = 1;
 var blueStatus = 'No GPS tracking available at the moment.';
 var orangeStatus = 'No GPS tracking available at the moment.';
 var blueInTransit = false;
 var orangeInTransit = false;
+var blueLastUpdateTimestamp = moment();
+var orangeLastUpdateTimestamp = moment();
 app.use(express_1.default.static('public'));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
@@ -55,16 +59,19 @@ app.post('/pi', function (req, res) {
             blueLoc = parseInt(req.body.stop);
             blueStatus = req.body.status;
             blueInTransit = JSON.parse(req.body.intransit);
+            blueLastUpdateTimestamp = moment();
             break;
         case "orange":
             orangeLoc = parseInt(req.body.stop);
             orangeStatus = req.body.status;
             orangeInTransit = JSON.parse(req.body.intransit);
+            orangeLastUpdateTimestamp = moment();
             break;
         default:
             blueStatus = req.body.status;
             orangeStatus = req.body.status;
     }
+    checkTimeout();
     console.log("------ ------ ------");
     console.log("Route: " + String(req.body.route));
     console.log("Location: " + parseInt(req.body.stop));
@@ -73,3 +80,11 @@ app.post('/pi', function (req, res) {
     res.sendStatus(200);
 });
 app.listen(port, function () { return console.log("bus GPS server listening on port " + port + "!"); });
+function checkTimeout() {
+    if (Number(moment()) - Number(blueLastUpdateTimestamp) > TIMEOUT_MS) {
+        blueStatus = "Bus has lost connection.";
+    }
+    if (Number(moment()) - Number(orangeLastUpdateTimestamp) > TIMEOUT_MS) {
+        orangeStatus = "Bus has lost connection.";
+    }
+}
