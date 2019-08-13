@@ -6,7 +6,7 @@ import * as busStopLocationData from './routes';
 
 const app = express();
 const port = process.env.PORT || 3000;
-const TIMEOUT_MS = 0.5 * 60 * 1000;
+const TIMEOUT_MS = 10 * 60 * 1000;
 
 // Global variables for storing locations in memory. Persistance isn't necessary.
 var blueLoc = 1;
