@@ -34,6 +34,14 @@ function buildBusRouteTable(stops) {
 
     <div class="row">
       <div class="col">
+        <a href="https://ice.disa.mil/index.cfm?fa=card&sp=142875">
+          <button type="button" class="btn btn-link">Please give us your feedback here!</button>
+        </a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
         <i class="fas fa-bus blue active"></i> : <span id="blue-status">Loading...</span>
       </div>
     </div>
