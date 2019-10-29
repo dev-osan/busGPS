@@ -10,16 +10,16 @@ session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 NUMBER_OF_DATA_POINTS_PER_GPS_READ = 3
 GEOFENCE_RADIUS_METERS = 40
 ALLOWABLE_NUMBER_OF_DROPPED_PACKETS = 15 # If this many packets are dropped in a row, reboot.
+CHECK_FOR_NEW_ROUTES_AFTER_ITERATIONS = 60 * 60 * 4 # This is how many loops it will go through before checking for a new route. Assuming 1 loop/second.
 
 # important urls
 LOC_URL = "https://busgps.herokuapp.com/pi"
 ROUTE_URL = "https://busgps.herokuapp.com/routes"
 LOCATION_OF_BUSSES = "https://busgps.herokuapp.com/api"
 
-# get routes
-routes = requests.get(ROUTE_URL)
-routes = routes.json()
-stops = routes["stops"]
+# get stops on route
+stops = None
+getRoute()
 
 currentRoute = None
 currentStop = None
@@ -31,6 +31,15 @@ lat = None
 lon = None
 
 lostConnectionCounter = 0
+
+def getRoute():
+    global stops
+    routes = requests.get(ROUTE_URL)
+    routes = routes.json()
+    stops = routes["stops"]
+
+
+
 
 
 def setLatLon():
@@ -125,14 +134,6 @@ def setCurrentRoute():
         elif currentRoute == "orange" and blueLocation == len(stops):
             currentRoute = "blue"
         return
-    
-    # Old end of route handler. Is supposed to change routes after leaving the last route.
-    # if currentRoute == "blue" and currentStop == len(stops) and inTransit == True:
-    #     currentRoute = "orange"
-    #     return
-    # elif currentRoute == "orange" and currentStop == 1 and inTransit == True:
-    #     currentRoute = "blue"
-    #     return
 
 
 
@@ -146,6 +147,7 @@ def setInTransit():
 
     global inTransit
     inTransit = min(distances) > GEOFENCE_RADIUS_METERS
+
 
 
 
@@ -181,6 +183,7 @@ def setPreviousAndNextStops():
         else:
             previousStop = currentStop - 1
             nextStop = currentStop + 1
+
 
 
 
@@ -236,6 +239,7 @@ def didGetGoodResponse(res):
 
 
 def main():
+    loopCounter = 0
     while True:
         try:
             setLatLon()
@@ -243,6 +247,11 @@ def main():
             setInTransit()
             sendBusLocation()
             setCurrentRoute()
+
+            loopCounter = loopCounter + 1
+            if loopCounter >= CHECK_FOR_NEW_ROUTES_AFTER_ITERATIONS:
+                getRoute()
+                loopCounter = 0
 
 
         except KeyError:
