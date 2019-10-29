@@ -12,11 +12,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var path_1 = __importDefault(require("path"));
-var moment = require("moment");
+var moment = require("moment-timezone");
 var busStopLocationData = __importStar(require("./routes"));
 var app = express_1.default();
 var port = process.env.PORT || 3000;
-var TIMEOUT_MS = 0.5 * 60 * 1000;
+var TIMEOUT_MS = 10 * 60 * 1000;
 var blueLoc = 1;
 var orangeLoc = 1;
 var blueStatus = 'No GPS tracking available at the moment.';
@@ -51,7 +51,15 @@ app.get('/api', function (req, res) {
     res.json(locationData);
 });
 app.get('/routes', function (req, res) {
-    res.json(busStopLocationData.routes);
+    var day = moment().tz('asia/seoul').format('dddd');
+    var isWeekend = day === 'Sunday' || day === 'Saturday';
+    console.log("Today is " + day + ", and isWeekend = " + isWeekend);
+    if (isWeekend) {
+        res.json(busStopLocationData.weekendRoute);
+    }
+    else {
+        res.json(busStopLocationData.weekdayRoute);
+    }
 });
 app.post('/pi', function (req, res) {
     switch (String(req.body.route)) {

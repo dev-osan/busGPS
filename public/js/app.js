@@ -59,12 +59,24 @@ function buildBusRouteTable(stops) {
     </div>`;
   let index = 1;
   for (let stop of stops) {
+    let bluet = "";
+    let oranget = "";
+
+    for (let i = 0; i < stop.blue_time.length; i++) {
+      bluet += `:${pad(stop.blue_time[i])}`;
+      oranget += `:${pad(stop.orange_time[i])}`;
+      if (stop.blue_time[i+1] != undefined) {
+        bluet += "/";
+        oranget += "/";
+      }
+    }
+
     scheduleAccumulator += `
       <div class="row">
       <div class="col-2"><i class="fas fa-bus blue" id="blue-${index}"></i> ${index} <i class="fas fa-bus orange" id="orange-${index}"></i></div>
       <div class="col-6">${stop.name}</div>
-      <div class="col-2">:${pad(stop.blue_time)} / :${pad((stop.blue_time + 30) % 60)}</div>
-      <div class="col-2">:${pad(stop.orange_time)} / :${pad((stop.orange_time + 30) % 60)}</div>
+      <div class="col-2">${bluet}</div>
+      <div class="col-2">${oranget}</div>
       </div>`;
     index = index + 1;
   }

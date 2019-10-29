@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
-import moment = require('moment');
+// import moment = require('moment');
+import moment = require('moment-timezone');
 
 import * as busStopLocationData from './routes';
 
@@ -49,9 +50,17 @@ app.get('/api', (req: any, res: any) => {
   res.json(locationData);
 });
 
+// TODO: Add a different schedule for weekends and weekdays.
 // The endpoint for getting the bus stop gps data.
 app.get('/routes', (req: any, res: any) => {
-  res.json(busStopLocationData.routes);
+  const day = moment().tz('asia/seoul').format('dddd');
+  const isWeekend = day === 'Sunday' || day === 'Saturday';
+  console.log(`Today is ${day}, and isWeekend = ${isWeekend}`);
+  if (isWeekend) {
+    res.json(busStopLocationData.weekendRoute);
+  } else {
+    res.json(busStopLocationData.weekdayRoute);
+  }
 });
 
 // the endpoint for the bus to post data to.
