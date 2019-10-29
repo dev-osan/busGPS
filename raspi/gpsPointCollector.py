@@ -5,7 +5,7 @@ session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 
 
 
-NUMBER_OF_DATA_POINTS_PER_GPS_READ = 60
+NUMBER_OF_DATA_POINTS_PER_GPS_READ = 15
 lat = None
 lon = None
 
