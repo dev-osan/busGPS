@@ -56,7 +56,6 @@ app.get('/api', (req: any, res: any) => {
   res.json(locationData);
 });
 
-// TODO: Add a different schedule for weekends and weekdays.
 // The endpoint for getting the bus stop gps data.
 app.get('/routes', (req: any, res: any) => {
   const day = moment().tz('asia/seoul').format('dddd');
@@ -65,14 +64,12 @@ app.get('/routes', (req: any, res: any) => {
   console.log(`Today is ${day} at ${currentTime.format('HH:mm:ss')}, and isWeekend = ${isWeekend}`);
 
   if (isWeekend) {
-    // TODO: Check if we're not in hours of operation and set statuses according to that.
     if (!currentTime.isBetween(WEEKEND_START_TIME, WEEKEND_STOP_TIME)) {
       blueStatus = `Weekend running hours are 0700-2300`;
       orangeStatus = `Busses are not currently running.`;
     }
     res.json(busStopLocationData.weekendRoute);
   } else {
-    // TODO: Check if we're not in hours of operation and set statuses according to that.
     if (!currentTime.isBetween(WEEKDAY_START_TIME, WEEKDAY_STOP_TIME)) {
       blueStatus = `Weekday running hours are 0500-2300`;
       orangeStatus = `Busses are not currently running.`;
@@ -121,14 +118,14 @@ app.post('/pi', (req: any, res: any) => {
 
 app.listen(port, () => console.log(`bus GPS server listening on port ${port}!`));
 
-// TODO: check if each bus hasn't been updated after a certain amount of time.
+// Check if each bus hasn't been updated after a certain amount of time.
 // If it fails to update then, set a status that says it's lost connection with the bus.
 
 function checkTimeout() {
   if (Number(moment()) - Number(blueLastUpdateTimestamp) > TIMEOUT_MS) {
-    blueStatus = "Bus has lost connection."
+    blueStatus = "Bus is currently running without tracking.";
   }
   if (Number(moment()) - Number(orangeLastUpdateTimestamp) > TIMEOUT_MS) {
-    orangeStatus = "Bus has lost connection."
+    orangeStatus = "Bus is currently running without tracking.";
   }
 }

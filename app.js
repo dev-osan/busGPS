@@ -62,14 +62,14 @@ app.get('/routes', function (req, res) {
     console.log("Today is " + day + " at " + currentTime.format('HH:mm:ss') + ", and isWeekend = " + isWeekend);
     if (isWeekend) {
         if (!currentTime.isBetween(WEEKEND_START_TIME, WEEKEND_STOP_TIME)) {
-            blueStatus = "Busses are not currently running.";
+            blueStatus = "Weekend running hours are 0700-2300";
             orangeStatus = "Busses are not currently running.";
         }
         res.json(busStopLocationData.weekendRoute);
     }
     else {
         if (!currentTime.isBetween(WEEKDAY_START_TIME, WEEKDAY_STOP_TIME)) {
-            blueStatus = "Busses are not currently running.";
+            blueStatus = "Weekday running hours are 0500-2300";
             orangeStatus = "Busses are not currently running.";
         }
         res.json(busStopLocationData.weekdayRoute);
@@ -104,9 +104,9 @@ app.post('/pi', function (req, res) {
 app.listen(port, function () { return console.log("bus GPS server listening on port " + port + "!"); });
 function checkTimeout() {
     if (Number(moment()) - Number(blueLastUpdateTimestamp) > TIMEOUT_MS) {
-        blueStatus = "Bus has lost connection.";
+        blueStatus = "Bus is currently running without tracking.";
     }
     if (Number(moment()) - Number(orangeLastUpdateTimestamp) > TIMEOUT_MS) {
-        orangeStatus = "Bus has lost connection.";
+        orangeStatus = "Bus is currently running without tracking.";
     }
 }
