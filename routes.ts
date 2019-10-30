@@ -16,6 +16,23 @@ export const weekdayRoute = {
   ]
 }
 
+export const NEWweekdayRoute = {
+  "stops": [
+    { "name": "Main Gate",                "lat": 37.0805462659, "lon": 127.048313204, "blue_time": [0, 30],  "orange_time": [30, 0] },
+    { "name": "Commissary",               "lat": 37.078780219,  "lon": 127.041909766, "blue_time": [3, 33],  "orange_time": [25, 55] },
+    { "name": "Bldg 383 (SFS)",           "lat": 37.084687588,  "lon": 127.040454578, "blue_time": [6, 36],  "orange_time": [18, 48] },
+    { "name": "Bldg 648 (Pax Terminal)",  "lat": 37.086810218,  "lon": 127.035777072, "blue_time": [8, 38],  "orange_time": [16, 46] },
+    { "name": "Bldg 772 (Turumi)",        "lat": 0,  "lon": 0, "blue_time": [10, 40],  "orange_time": [14, 44] },
+    { "name": "Bldg 778 (A&FRC/DBIDS)",   "lat": 37.0825500189, "lon": 127.039126881, "blue_time": [11, 41], "orange_time": [13, 43] },
+    { "name": "Bldg 936 (MPF/7AF)",       "lat": 37.0813882792, "lon": 127.035773205, "blue_time": [13, 43], "orange_time": [11, 41] },
+    { "name": "Bldg 965 (BX)",            "lat": 37.0838417285, "lon": 127.034008791, "blue_time": [15, 45], "orange_time": [9, 39] },
+    { "name": "Bldg 824 (IPE)",           "lat": 37.0848334799, "lon": 127.033277102, "blue_time": [18, 48], "orange_time": [7, 37] },
+    { "name": "Bldg 1235 (CW ECP)",       "lat": 37.0859378522, "lon": 127.026418884, "blue_time": [21, 51], "orange_time": [4, 34] },
+    { "name": "Bldg 1601 (Main ECP)",     "lat": 37.0826592084, "lon": 127.023135623, "blue_time": [23, 53], "orange_time": [2, 32] },
+    { "name": "Mustang Center",           "lat": 37.0807782692, "lon": 127.028074619, "blue_time": [30, 0],  "orange_time": [0, 30] }
+  ]
+}
+
 export const weekendRoute = {
   "stops": [
     { "name": "Main Gate",                      "lat": 37.0805462659, "lon": 127.048313204, "blue_time": [0, 10, 20, 30, 40], "orange_time": [8, 18, 28, 38, 48] },
