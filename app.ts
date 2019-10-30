@@ -12,8 +12,8 @@ const TIMEOUT_MS = 10 * 60 * 1000;
 // Global variables for storing locations in memory. Persistance isn't necessary.
 var blueLoc = 1;
 var orangeLoc = 1;
-var blueStatus = 'No GPS tracking available at the moment.';
-var orangeStatus = 'No GPS tracking available at the moment.';
+var blueStatus = 'Bus running without tracking.';
+var orangeStatus = 'Bus running without tracking.';
 var blueInTransit = false
 var orangeInTransit = false
 var blueLastUpdateTimestamp = moment();

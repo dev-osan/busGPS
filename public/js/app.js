@@ -42,12 +42,12 @@ function buildBusRouteTable(stops) {
 
     <div class="row">
       <div class="col">
-        <i class="fas fa-bus blue active"></i> : <span id="blue-status">Loading...</span>
+        <i id="blue-status-icon" class="fas fa-bus blue active"></i> : <span id="blue-status">Loading...</span>
       </div>
     </div>
     <div class="row">
       <div class="col">
-        <i class="fas fa-bus orange active"></i> : <span id="orange-status">Loading...</span>
+        <i id="orange-status-icon" class="fas fa-bus orange active"></i> : <span id="orange-status">Loading...</span>
       </div>
     </div>
 
@@ -121,8 +121,8 @@ window.setInterval(() => {
   }).catch(function(err) {
     console.log("Unable to reach server.");
     console.error(err)
-    document.getElementById("blue-status").innerText = "Unable to reach server...";
-    document.getElementById("orange-status").innerText = "Unable to reach server...";
+    document.getElementById("blue-status").innerText = "Bus running without tracking.";
+    document.getElementById("orange-status").innerText = "Bus running without tracking.";
   });
 }, UPDATE_INTERVAL_MILLISECONDS);
 
@@ -138,13 +138,16 @@ function updateBlueBusLocation(data) {
 
   if (data.blue.err) {
     document.getElementById("blue-status").innerText = data.blue.err;
+    document.getElementById(`blue-status-icon`).classList.remove('blink');
   } else if (!blueInTransit) {
+    document.getElementById(`blue-status-icon`).classList.remove('blink');
     document.getElementById(`blue-${blueLocation}`).classList.add('active');
     document.getElementById("blue-status").innerText = `Stopped at #${blueLocation}: ${stops[blueLocation - 1].name}`;
   } else if (blueInTransit) {
     if (blueLocation == stops.length) {
       return console.error(`The blue route is recieving a transit signal from ${stops.length} to ${stops.length + 1}, change to orange line.`);
     }
+    document.getElementById(`blue-status-icon`).classList.add('blink');
     document.getElementById(`blue-${blueLocation + 1}`).classList.add('active', 'blink');
     document.getElementById("blue-status").innerText = `In transit to #${blueLocation + 1}: ${stops[blueLocation].name}`;
   }
@@ -162,13 +165,16 @@ function updateOrangeBusLocation(data) {
 
   if (data.orange.err) {
     document.getElementById("orange-status").innerText = data.orange.err;
+    document.getElementById(`blue-status-icon`).classList.remove('blink');
   } else if (!orangeInTransit) {
+    document.getElementById(`blue-status-icon`).classList.remove('blink');
     document.getElementById(`orange-${orangeLocation}`).classList.add('active');
     document.getElementById("orange-status").innerText = `Stopped at #${orangeLocation}: ${stops[orangeLocation - 1].name}`;
   } else if (orangeInTransit) {
     if (orangeLocation == 1) {
       return console.error("The orange route is recieving a transit signal from 1 to 0, change to blue line.");
     }
+    document.getElementById(`blue-status-icon`).classList.add('blink');
     document.getElementById(`orange-${orangeLocation - 1}`).classList.add('active', 'blink');
     document.getElementById("orange-status").innerText = `In transit to #${orangeLocation - 1}: ${stops[orangeLocation - 2].name}`;
   }
