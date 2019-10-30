@@ -9,6 +9,12 @@ const app = express();
 const port = process.env.PORT || 3000;
 const TIMEOUT_MS = 10 * 60 * 1000;
 
+const format = "HH:mm";
+const WEEKEND_START_TIME = moment(`07:00`, format);
+const WEEKEND_STOP_TIME = moment(`23:00`, format);
+const WEEKDAY_START_TIME = moment(`05:00`, format);
+const WEEKDAY_STOP_TIME = moment(`23:00`, format);
+
 // Global variables for storing locations in memory. Persistance isn't necessary.
 var blueLoc = 1;
 var orangeLoc = 1;
@@ -55,10 +61,22 @@ app.get('/api', (req: any, res: any) => {
 app.get('/routes', (req: any, res: any) => {
   const day = moment().tz('asia/seoul').format('dddd');
   const isWeekend = day === 'Sunday' || day === 'Saturday';
-  console.log(`Today is ${day}, and isWeekend = ${isWeekend}`);
+  const currentTime = moment().tz('asia/seoul');
+  console.log(`Today is ${day} at ${currentTime.format('HH:mm:ss')}, and isWeekend = ${isWeekend}`);
+
   if (isWeekend) {
+    // TODO: Check if we're not in hours of operation and set statuses according to that.
+    if (!currentTime.isBetween(WEEKEND_START_TIME, WEEKEND_STOP_TIME)) {
+      blueStatus = `Weekend running hours are 0700-2300`;
+      orangeStatus = `Busses are not currently running.`;
+    }
     res.json(busStopLocationData.weekendRoute);
   } else {
+    // TODO: Check if we're not in hours of operation and set statuses according to that.
+    if (!currentTime.isBetween(WEEKDAY_START_TIME, WEEKDAY_STOP_TIME)) {
+      blueStatus = `Weekday running hours are 0500-2300`;
+      orangeStatus = `Busses are not currently running.`;
+    }
     res.json(busStopLocationData.weekdayRoute);
   }
 });

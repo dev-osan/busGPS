@@ -17,6 +17,11 @@ var busStopLocationData = __importStar(require("./routes"));
 var app = express_1.default();
 var port = process.env.PORT || 3000;
 var TIMEOUT_MS = 10 * 60 * 1000;
+var format = "HH:mm";
+var WEEKEND_START_TIME = moment("07:00", format);
+var WEEKEND_STOP_TIME = moment("23:00", format);
+var WEEKDAY_START_TIME = moment("05:00", format);
+var WEEKDAY_STOP_TIME = moment("23:00", format);
 var blueLoc = 1;
 var orangeLoc = 1;
 var blueStatus = 'Bus running without tracking.';
@@ -53,11 +58,20 @@ app.get('/api', function (req, res) {
 app.get('/routes', function (req, res) {
     var day = moment().tz('asia/seoul').format('dddd');
     var isWeekend = day === 'Sunday' || day === 'Saturday';
-    console.log("Today is " + day + ", and isWeekend = " + isWeekend);
+    var currentTime = moment().tz('asia/seoul');
+    console.log("Today is " + day + " at " + currentTime.format('HH:mm:ss') + ", and isWeekend = " + isWeekend);
     if (isWeekend) {
+        if (!currentTime.isBetween(WEEKEND_START_TIME, WEEKEND_STOP_TIME)) {
+            blueStatus = "Busses are not currently running.";
+            orangeStatus = "Busses are not currently running.";
+        }
         res.json(busStopLocationData.weekendRoute);
     }
     else {
+        if (!currentTime.isBetween(WEEKDAY_START_TIME, WEEKDAY_STOP_TIME)) {
+            blueStatus = "Busses are not currently running.";
+            orangeStatus = "Busses are not currently running.";
+        }
         res.json(busStopLocationData.weekdayRoute);
     }
 });
