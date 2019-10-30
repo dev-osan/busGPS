@@ -165,16 +165,16 @@ function updateOrangeBusLocation(data) {
 
   if (data.orange.err) {
     document.getElementById("orange-status").innerText = data.orange.err;
-    document.getElementById(`blue-status-icon`).classList.remove('blink');
+    document.getElementById(`orange-status-icon`).classList.remove('blink');
   } else if (!orangeInTransit) {
-    document.getElementById(`blue-status-icon`).classList.remove('blink');
+    document.getElementById(`orange-status-icon`).classList.remove('blink');
     document.getElementById(`orange-${orangeLocation}`).classList.add('active');
     document.getElementById("orange-status").innerText = `Stopped at #${orangeLocation}: ${stops[orangeLocation - 1].name}`;
   } else if (orangeInTransit) {
     if (orangeLocation == 1) {
       return console.error("The orange route is recieving a transit signal from 1 to 0, change to blue line.");
     }
-    document.getElementById(`blue-status-icon`).classList.add('blink');
+    document.getElementById(`orange-status-icon`).classList.add('blink');
     document.getElementById(`orange-${orangeLocation - 1}`).classList.add('active', 'blink');
     document.getElementById("orange-status").innerText = `In transit to #${orangeLocation - 1}: ${stops[orangeLocation - 2].name}`;
   }
