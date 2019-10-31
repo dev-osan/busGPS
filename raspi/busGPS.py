@@ -17,9 +17,8 @@ LOC_URL = "https://busgps.herokuapp.com/pi"
 ROUTE_URL = "https://busgps.herokuapp.com/routes"
 LOCATION_OF_BUSSES = "https://busgps.herokuapp.com/api"
 
-# get stops on route
 stops = None
-getRoute()
+routes = None
 
 currentRoute = None
 currentStop = None
@@ -34,6 +33,7 @@ lostConnectionCounter = 0
 
 def getRoute():
     global stops
+    global routes
     routes = requests.get(ROUTE_URL)
     routes = routes.json()
     stops = routes["stops"]
@@ -266,4 +266,5 @@ def main():
 
 
 print("Starting busGPS program.")
+getRoute()
 main()
