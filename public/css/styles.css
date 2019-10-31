@@ -4,6 +4,15 @@
   text-transform: uppercase;
 }
 
+footer a {
+  color: #696035;
+}
+
+footer a:hover {
+  color: red;
+  text-decoration: none;
+}
+
 .table-title {
   background-color: blue;
   color: white;
