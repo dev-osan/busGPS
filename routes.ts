@@ -1,4 +1,4 @@
-export const weekdayRoute = {
+export const OLDweekdayRoute = {
   "stops": [
     { "name": "Main Gate",                      "lat": 37.0805462659, "lon": 127.048313204, "blue_time": [0, 30],  "orange_time": [30, 0] },
     { "name": "Commissary",                     "lat": 37.078780219,  "lon": 127.041909766, "blue_time": [2, 32],  "orange_time": [25, 55] },
@@ -16,7 +16,7 @@ export const weekdayRoute = {
   ]
 }
 
-export const NEWweekdayRoute = {
+export const weekdayRoute = {
   "stops": [
     { "name": "Main Gate",                "lat": 37.0805462659, "lon": 127.048313204, "blue_time": [0, 30],  "orange_time": [30, 0] },
     { "name": "Commissary",               "lat": 37.078780219,  "lon": 127.041909766, "blue_time": [3, 33],  "orange_time": [25, 55] },
