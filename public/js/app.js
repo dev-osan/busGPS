@@ -65,10 +65,10 @@ function buildBusRouteTable(stops) {
     for (let i = 0; i < stop.blue_time.length; i++) {
       bluet += `:${pad(stop.blue_time[i])}`;
       oranget += `:${pad(stop.orange_time[i])}`;
-      if (stop.blue_time[i+1] != undefined && stop.blue_time[i] % == 0) {
+      if (stop.blue_time[i+1] != undefined && stop.blue_time[i] % 2 == 0) {
         bluet += "/";
         oranget += "/";
-      } else if (stop.blue_time[i] % != 0) {
+      } else if (stop.blue_time[i] % 2 != 0) {
         bluet += "\n";
         oranget += "\n";
       }
