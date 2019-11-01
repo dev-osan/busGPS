@@ -7,7 +7,7 @@ import * as busStopLocationData from './routes';
 
 const app = express();
 const port = process.env.PORT || 3000;
-const TIMEOUT_MS = 10 * 60 * 1000;
+const TIMEOUT_MS = 2 * 60 * 1000;
 
 const format = "HH:mm";
 const WEEKEND_START_TIME = moment(`07:00`, format);
