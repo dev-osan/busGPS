@@ -64,13 +64,13 @@ app.get('/routes', (req: any, res: any) => {
   console.log(`Today is ${day} at ${currentTime.format('HH:mm:ss')}, and isWeekend = ${isWeekend}`);
 
   if (isWeekend) {
-    if (!currentTime.isBetween(WEEKEND_START_TIME, WEEKEND_STOP_TIME)) {
+    if (currentTime.isBetween(WEEKEND_START_TIME, WEEKEND_STOP_TIME)) {
       blueStatus = `Weekend running hours are 0700-2300`;
       orangeStatus = `Busses are not currently running.`;
     }
     res.json(busStopLocationData.weekendRoute);
   } else {
-    if (!currentTime.isBetween(WEEKDAY_START_TIME, WEEKDAY_STOP_TIME)) {
+    if (currentTime.isBetween(WEEKDAY_START_TIME, WEEKDAY_STOP_TIME)) {
       blueStatus = `Weekday running hours are 0500-2300`;
       orangeStatus = `Busses are not currently running.`;
     }
