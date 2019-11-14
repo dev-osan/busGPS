@@ -9,11 +9,16 @@ const app = express();
 const port = process.env.PORT || 3000;
 const TIMEOUT_MS = 2 * 60 * 1000;
 
-const format = "HH:mm";
-const WEEKEND_START_TIME = moment(`07:00`, format);
-const WEEKEND_STOP_TIME = moment(`23:00`, format);
-const WEEKDAY_START_TIME = moment(`05:00`, format);
-const WEEKDAY_STOP_TIME = moment(`23:00`, format);
+// const format = "HH:mm";
+// const WEEKEND_START_TIME = moment(`07:00`, format);
+// const WEEKEND_STOP_TIME = moment(`23:00`, format);
+// const WEEKDAY_START_TIME = moment(`05:00`, format);
+// const WEEKDAY_STOP_TIME = moment(`23:00`, format);
+
+const WEEKEND_START_TIME = moment().set({'hour': 7});
+const WEEKEND_STOP_TIME = moment().set({'hour': 23});
+const WEEKDAY_START_TIME = moment().set({'hour': 5});
+const WEEKDAY_STOP_TIME = moment().set({'hour': 23});
 
 // Global variables for storing locations in memory. Persistance isn't necessary.
 var blueLoc = 1;
