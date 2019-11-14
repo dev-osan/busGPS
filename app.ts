@@ -63,6 +63,7 @@ app.get('/routes', (req: any, res: any) => {
   const currentTime = moment().tz('asia/seoul');
   console.log(`Weekend stop time: ${WEEKEND_STOP_TIME}`);
   console.log(`Today is ${day} at ${currentTime.format('HH:mm:ss')}, and isWeekend = ${isWeekend}`);
+  console.log(`In between? ${currentTime.isBetween(WEEKEND_START_TIME, WEEKEND_STOP_TIME)}`);
 
   if (isWeekend) {
     if (!currentTime.isBetween(WEEKEND_START_TIME, WEEKEND_STOP_TIME)) {
