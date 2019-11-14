@@ -61,6 +61,7 @@ app.get('/routes', (req: any, res: any) => {
   const day = moment().tz('asia/seoul').format('dddd');
   const isWeekend = day === 'Sunday' || day === 'Saturday';
   const currentTime = moment().tz('asia/seoul');
+  console.log(`Weekend stop time: ${WEEKEND_STOP_TIME}`);
   console.log(`Today is ${day} at ${currentTime.format('HH:mm:ss')}, and isWeekend = ${isWeekend}`);
 
   if (isWeekend) {
