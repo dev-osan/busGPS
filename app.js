@@ -76,6 +76,28 @@ app.get('/routes', function (req, res) {
         res.json(busStopLocationData.weekdayRoute);
     }
 });
+app.get('/routes_min', function (req, res) {
+    var day = moment().tz('asia/seoul').format('dddd');
+    var isWeekend = day === 'Sunday' || day === 'Saturday';
+    var currentTime = moment().tz('asia/seoul');
+    console.log("Weekend stop time: " + WEEKEND_STOP_TIME);
+    console.log("Today is " + day + " at " + currentTime.format('HH:mm:ss') + ", and isWeekend = " + isWeekend);
+    console.log("In between? " + currentTime.isBetween(WEEKEND_START_TIME, WEEKEND_STOP_TIME));
+    if (isWeekend) {
+        if (!currentTime.isBetween(WEEKEND_START_TIME, WEEKEND_STOP_TIME)) {
+            blueStatus = "Weekend running hours are 0700-2300";
+            orangeStatus = "Busses are not currently running.";
+        }
+        res.json(minifyBusRouteInfo(busStopLocationData.weekendRoute));
+    }
+    else {
+        if (!currentTime.isBetween(WEEKDAY_START_TIME, WEEKDAY_STOP_TIME)) {
+            blueStatus = "Weekday running hours are 0500-2300";
+            orangeStatus = "Busses are not currently running.";
+        }
+        res.json(minifyBusRouteInfo(busStopLocationData.weekdayRoute));
+    }
+});
 app.post('/pi', function (req, res) {
     switch (String(req.body.route)) {
         case "blue":
@@ -110,4 +132,12 @@ function checkTimeout() {
     if (Number(moment()) - Number(orangeLastUpdateTimestamp) > TIMEOUT_MS) {
         orangeStatus = "Bus is currently running without tracking.";
     }
+}
+function minifyBusRouteInfo(routes) {
+    var routes_minified = { stops: [] };
+    routes.stops.forEach(function (stop) {
+        routes_minified.stops.push(stop.lat);
+        routes_minified.stops.push(stop.lon);
+    });
+    return routes_minified;
 }
