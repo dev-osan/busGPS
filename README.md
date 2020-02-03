@@ -54,7 +54,7 @@ The first set of lat/lon belong to stop one, the next - stop two, and so on. The
 }
 ```
 
-`/updateLocation?id=NUMBER&loc=NUMBER&inTransit=BOOLEAN` GET will update the current location of the id supplied using the params in the url query.
+`/updateLocation?id=STRING&loc=NUMBER&inTransit=BOOLEAN` GET will update the current location of the id supplied using the params in the url query.
 ```typescript
 // Returns HTTP Status 200 if OK.
 ```
