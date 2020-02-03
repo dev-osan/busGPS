@@ -9,12 +9,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 const TIMEOUT_MS = 2 * 60 * 1000;
 
-// const format = "HH:mm";
-// const WEEKEND_START_TIME = moment(`07:00`, format);
-// const WEEKEND_STOP_TIME = moment(`23:00`, format);
-// const WEEKDAY_START_TIME = moment(`05:00`, format);
-// const WEEKDAY_STOP_TIME = moment(`23:00`, format);
-
 const WEEKEND_START_TIME = moment().set({'hour': 7});
 const WEEKEND_STOP_TIME = moment().set({'hour': 23});
 const WEEKDAY_START_TIME = moment().set({'hour': 5});
@@ -49,6 +43,18 @@ app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (req: any, res: any) => {
   res.sendFile(path.join(__dirname + '/views/index.html'));
+});
+
+app.get('/updateLocation', (req: any, res: any) => {
+  // should come in like /updateLocation?id=1&loc=4&inTransit=true
+  // parse out each param
+  // figure out what route this bus id is on
+  // update bus status
+  console.log(`ID: ${req.query.id}`);
+  console.log(`Location: ${req.query.loc}`);
+  console.log(`inTransit: ${req.query.inTransit}`);
+
+  res.sendStatus(200);
 });
 
 // the endpoint for the client to update it's bus location

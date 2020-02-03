@@ -35,6 +35,12 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.get('/', function (req, res) {
     res.sendFile(path_1.default.join(__dirname + '/views/index.html'));
 });
+app.get('/updateLocation', function (req, res) {
+    console.log("ID: " + req.query.id);
+    console.log("Location: " + req.query.loc);
+    console.log("inTransit: " + req.query.inTransit);
+    res.sendStatus(200);
+});
 app.get('/api', function (req, res) {
     var locationData = {
         "blue": {

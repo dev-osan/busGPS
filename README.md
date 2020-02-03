@@ -44,3 +44,17 @@ There is no data being persisted in a database, the application just stores the 
   ]
 }
 ```
+
+`/routes_min` GET will return a list of all gps coords for stops on the bus route in order.
+This is a minified version, so the array will still be in order but just in the form: [lat, lon, lat, lon, ...].
+The first set of lat/lon belong to stop one, the next - stop two, and so on. The Arduino has a limited amount of memory to store responses, so it's best to keep it under 500 characters total.
+```typescript
+{
+  "stops": Number[]
+}
+```
+
+`/updateLocation?id=NUMBER&loc=NUMBER&inTransit=BOOLEAN` GET will update the current location of the id supplied using the params in the url query.
+```typescript
+// Returns HTTP Status 200 if OK.
+```
