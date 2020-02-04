@@ -29,16 +29,91 @@ var blueInTransit = false;
 var orangeInTransit = false;
 var blueLastUpdateTimestamp = moment();
 var orangeLastUpdateTimestamp = moment();
+var routeLength;
 app.use(express_1.default.static('public'));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.get('/', function (req, res) {
     res.sendFile(path_1.default.join(__dirname + '/views/index.html'));
 });
+var prev_loc_map = new Map();
 app.get('/updateLocation', function (req, res) {
     console.log("ID: " + req.query.id);
     console.log("Location: " + req.query.loc);
     console.log("inTransit: " + req.query.inTransit);
+    var loc = Number(req.query.loc);
+    var inTransit = (req.query.inTransit == 'true');
+    var id = req.query.id;
+    if (loc <= 0) {
+        res.sendStatus(200);
+    }
+    if (!prev_loc_map.has(id)) {
+        prev_loc_map.set(id, loc);
+        if (loc < routeLength / 2) {
+            blueLoc = loc;
+            blueStatus = '';
+            blueLastUpdateTimestamp = moment();
+        }
+        else {
+            orangeLoc = loc;
+            orangeStatus = '';
+            orangeLastUpdateTimestamp = moment();
+        }
+    }
+    if (!inTransit) {
+        if (prev_loc_map.get(id) < loc) {
+            blueLoc = loc;
+            prev_loc_map.set(id, loc);
+            blueInTransit = false;
+            blueStatus = '';
+            blueLastUpdateTimestamp = moment();
+        }
+        else if (prev_loc_map.get(id) > loc) {
+            orangeLoc = loc;
+            prev_loc_map.set(id, loc);
+            orangeInTransit = false;
+            orangeStatus = '';
+            orangeLastUpdateTimestamp = moment();
+        }
+    }
+    if (blueLoc == 1 && orangeLoc == routeLength || blueLoc == routeLength && orangeLoc == 1) {
+        if (inTransit) {
+            if (prev_loc_map.get(id) == 1) {
+                blueInTransit = true;
+                blueStatus = '';
+                blueLastUpdateTimestamp = moment();
+            }
+            else if (prev_loc_map.get(id) == routeLength) {
+                orangeInTransit = true;
+                orangeStatus = '';
+                orangeLastUpdateTimestamp = moment();
+            }
+        }
+        else {
+            blueLoc = 1;
+            orangeLoc = routeLength;
+            blueStatus = '';
+            orangeStatus = '';
+            blueLastUpdateTimestamp = moment();
+            orangeLastUpdateTimestamp = moment();
+        }
+    }
+    if (Number(moment()) - Number(blueLastUpdateTimestamp) > TIMEOUT_MS) {
+        if (orangeLoc == 1) {
+            orangeStatus = "Bus is currently running without tracking.";
+            blueLoc = 1;
+            blueStatus = "";
+            blueLastUpdateTimestamp = moment();
+        }
+    }
+    if (Number(moment()) - Number(orangeLastUpdateTimestamp) > TIMEOUT_MS) {
+        if (blueLoc == routeLength) {
+            blueStatus = "Bus is currently running without tracking.";
+            orangeLoc = routeLength;
+            orangeStatus = "";
+            orangeLastUpdateTimestamp = moment();
+        }
+    }
     res.sendStatus(200);
 });
 app.get('/api', function (req, res) {
@@ -58,6 +133,7 @@ app.get('/api', function (req, res) {
     if (orangeStatus != '') {
         locationData.orange.err = orangeStatus;
     }
+    checkTimeout();
     res.json(locationData);
 });
 app.get('/routes', function (req, res) {
@@ -72,6 +148,7 @@ app.get('/routes', function (req, res) {
             blueStatus = "Weekend running hours are 0700-2300";
             orangeStatus = "Busses are not currently running.";
         }
+        routeLength = busStopLocationData.weekendRoute.stops.length;
         res.json(busStopLocationData.weekendRoute);
     }
     else {
@@ -79,6 +156,7 @@ app.get('/routes', function (req, res) {
             blueStatus = "Weekday running hours are 0500-2300";
             orangeStatus = "Busses are not currently running.";
         }
+        routeLength = busStopLocationData.weekdayRoute.stops.length;
         res.json(busStopLocationData.weekdayRoute);
     }
 });
@@ -94,6 +172,7 @@ app.get('/routes_min', function (req, res) {
             blueStatus = "Weekend running hours are 0700-2300";
             orangeStatus = "Busses are not currently running.";
         }
+        routeLength = busStopLocationData.weekendRoute.stops.length;
         res.json(minifyBusRouteInfo(busStopLocationData.weekendRoute));
     }
     else {
@@ -101,6 +180,7 @@ app.get('/routes_min', function (req, res) {
             blueStatus = "Weekday running hours are 0500-2300";
             orangeStatus = "Busses are not currently running.";
         }
+        routeLength = busStopLocationData.weekdayRoute.stops.length;
         res.json(minifyBusRouteInfo(busStopLocationData.weekdayRoute));
     }
 });
