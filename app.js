@@ -46,6 +46,7 @@ app.get('/updateLocation', function (req, res) {
     var id = req.query.id;
     if (loc <= 0) {
         res.sendStatus(200);
+        return;
     }
     if (!prev_loc_map.has(id)) {
         prev_loc_map.set(id, loc);

@@ -64,6 +64,7 @@ app.get('/updateLocation', (req: any, res: any) => {
   if (loc <= 0) {
     // The device doesn't know where it's at yet.
     res.sendStatus(200);
+    return;
   }
 
   // setting initial conditions
