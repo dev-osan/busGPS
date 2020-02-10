@@ -37,6 +37,7 @@ app.get('/', function (req, res) {
     res.sendFile(path_1.default.join(__dirname + '/views/index.html'));
 });
 var prev_loc_map = new Map();
+var route_map = new Map();
 app.get('/updateLocation', function (req, res) {
     console.log("ID: " + req.query.id);
     console.log("Location: " + req.query.loc);
@@ -54,11 +55,13 @@ app.get('/updateLocation', function (req, res) {
             blueLoc = loc;
             blueStatus = '';
             blueLastUpdateTimestamp = moment();
+            route_map.set(id, "blue");
         }
         else {
             orangeLoc = loc;
             orangeStatus = '';
             orangeLastUpdateTimestamp = moment();
+            route_map.set(id, "orange");
         }
     }
     if (!inTransit) {
@@ -68,6 +71,7 @@ app.get('/updateLocation', function (req, res) {
             blueInTransit = false;
             blueStatus = '';
             blueLastUpdateTimestamp = moment();
+            route_map.set(id, "blue");
         }
         else if (prev_loc_map.get(id) > loc) {
             orangeLoc = loc;
@@ -75,6 +79,19 @@ app.get('/updateLocation', function (req, res) {
             orangeInTransit = false;
             orangeStatus = '';
             orangeLastUpdateTimestamp = moment();
+            route_map.set(id, "orange");
+        }
+    }
+    else {
+        if (loc == blueLoc && route_map.get(id) == "blue") {
+            blueInTransit = true;
+            blueLastUpdateTimestamp = moment();
+            route_map.set(id, "blue");
+        }
+        if (loc == orangeLoc && route_map.get(id) == "orange") {
+            orangeInTransit = true;
+            orangeLastUpdateTimestamp = moment();
+            route_map.set(id, "orange");
         }
     }
     if (blueLoc == 1 && orangeLoc == routeLength || blueLoc == routeLength && orangeLoc == 1) {
@@ -83,11 +100,13 @@ app.get('/updateLocation', function (req, res) {
                 blueInTransit = true;
                 blueStatus = '';
                 blueLastUpdateTimestamp = moment();
+                route_map.set(id, "blue");
             }
             else if (prev_loc_map.get(id) == routeLength) {
                 orangeInTransit = true;
                 orangeStatus = '';
                 orangeLastUpdateTimestamp = moment();
+                route_map.set(id, "orange");
             }
         }
         else {
@@ -97,6 +116,8 @@ app.get('/updateLocation', function (req, res) {
             orangeStatus = '';
             blueLastUpdateTimestamp = moment();
             orangeLastUpdateTimestamp = moment();
+            route_map.set(id, "blue");
+            route_map.set(id, "orange");
         }
     }
     if (Number(moment()) - Number(blueLastUpdateTimestamp) > TIMEOUT_MS) {

@@ -47,6 +47,7 @@ app.get('/', (req: any, res: any) => {
 });
 
 var prev_loc_map = new Map();
+var route_map = new Map();
 
 app.get('/updateLocation', (req: any, res: any) => {
   // should come in like /updateLocation?id=1&loc=4&inTransit=true
@@ -74,10 +75,12 @@ app.get('/updateLocation', (req: any, res: any) => {
       blueLoc = loc;
       blueStatus = '';
       blueLastUpdateTimestamp = moment();
+      route_map.set(id, "blue");
     } else {
       orangeLoc = loc;
       orangeStatus = '';
       orangeLastUpdateTimestamp = moment();
+      route_map.set(id, "orange");
     }
   }
 
@@ -89,12 +92,26 @@ app.get('/updateLocation', (req: any, res: any) => {
       blueInTransit = false;
       blueStatus = '';
       blueLastUpdateTimestamp = moment();
+      route_map.set(id, "blue");
     } else if (prev_loc_map.get(id) > loc) {
       orangeLoc = loc;
       prev_loc_map.set(id, loc);
       orangeInTransit = false;
       orangeStatus = '';
       orangeLastUpdateTimestamp = moment();
+      route_map.set(id, "orange");
+    }
+  } else { // if it is in transit...
+
+    if (loc == blueLoc && route_map.get(id) == "blue") {
+      blueInTransit = true;
+      blueLastUpdateTimestamp = moment();
+      route_map.set(id, "blue");
+    }
+    if (loc == orangeLoc && route_map.get(id) == "orange") {
+      orangeInTransit = true;
+      orangeLastUpdateTimestamp = moment();
+      route_map.set(id, "orange");
     }
   }
 
@@ -105,10 +122,12 @@ app.get('/updateLocation', (req: any, res: any) => {
         blueInTransit = true;
         blueStatus = '';
         blueLastUpdateTimestamp = moment();
+        route_map.set(id, "blue");
       } else if (prev_loc_map.get(id) == routeLength) {
         orangeInTransit = true;
         orangeStatus = '';
         orangeLastUpdateTimestamp = moment();
+        route_map.set(id, "orange");
       }
     } else { // both busses at end of routes, so swap.
       blueLoc = 1;
@@ -117,6 +136,8 @@ app.get('/updateLocation', (req: any, res: any) => {
       orangeStatus = '';
       blueLastUpdateTimestamp = moment();
       orangeLastUpdateTimestamp = moment();
+      route_map.set(id, "blue");
+      route_map.set(id, "orange");
     }
   }
 
