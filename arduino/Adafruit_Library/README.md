@@ -1,3 +1,8 @@
+# Arduino busGPS at Osan AB developer notes
+Please copy this library into your Arduino library folder. The code here has been modified to support the mission of the busGPS project, so if you re-download the code as mentioned below, you will not get the changes and the application will not compile.
+
+Changes are documented here: https://community.botletics.com/post/using-the-returned-data-from-a-get-request-10406129
+
 # Improved Version of Adafruit FONA Library
 The code in this repository is an improved version of the Adafruit FONA library which adds LTE functionality for the SIM7000 module.
 The text below is from the original Adafruit FONA library:
