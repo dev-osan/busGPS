@@ -58,3 +58,32 @@ The first set of lat/lon belong to stop one, the next - stop two, and so on. The
 ```typescript
 // Returns HTTP Status 200 if OK.
 ```
+
+### Building a new Arduino Tracker
+
+**Hardware**
+- Arduino UNO
+- Botletics SIM7000G
+- Hologram SIM card
+- Adafruit USB to 2.1mm DC Booster Cable - 9V
+
+Solder everything together, make the connections, and power it up!
+
+**Software**
+Located in the Arduino folder in this project.
+- Follow the README instructions in the arduino folder of this project. That's how you'll prep the device to recieve the software. https://github.com/dev-osan/busGPS/tree/master/arduino
+
+**Case**
+The case is 3d printed, contact William Duncan or myself (repo owner) for more information or just make your own. It was quite fun!
+
+**Guides**
+These are some of the guides that helped me get it running.
+https://www.hackster.io/botletics/real-time-2g-3g-lte-arduino-gps-tracker-iot-dashboard-01d471
+https://www.youtube.com/watch?v=l3He0RGahN4
+https://github.com/botletics/SIM7000-LTE-Shield
+https://community.botletics.com/
+
+Memory Management on Arduino
+https://learn.adafruit.com/memories-of-an-arduino/optimizing-sram
+
+Reach out for more information. This project was built for tracking busses on Osan Air Base, ROK. Contact the 51 LRS there, they should have a continuity binder for more information.
