@@ -3,6 +3,7 @@ void loop() {
   if (numberOfFailedLoops == numberOfFailableLoops) {
     Serial.println(F("Restarting the hat (FONA)..."));
     numberOfFailedLoops = 0;
+    currentStop = -1;
     fona.setFunctionality(6); // restart the hat
     delay(10000); // 10 second delay to let it restart fully
     setup_hat();
