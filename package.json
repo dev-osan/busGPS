@@ -16,7 +16,7 @@
     "@types/node": "^11.13.4",
     "express": "^4.16.4",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.27",
+    "moment-timezone": "^0.5.35",
     "nodemon": "^1.19.1"
   }
 }
